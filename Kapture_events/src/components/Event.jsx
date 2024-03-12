@@ -12,8 +12,7 @@ import FooterCreateEvent from "./FooterCreateEvent.jsx";
 import Gallerym from "./Gallerym.jsx";
 import subevent from "arg";
  import './event.css';
-import TimePicker from 'react-time-picker';
-import DatePicker  from "react-date-picker";
+
 import img from './Rectangle 3.png';
 
 
