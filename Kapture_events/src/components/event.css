@@ -145,25 +145,27 @@ option {
 }
 
 /* Default styles for larger screens */
+/*
 body {
-    overflow-x: hidden; /* Disable horizontal scroll for the entire page */
-    overflow-y: auto; /* Enable vertical scroll for the entire page */
+    overflow-x: hidden; /* Disable horizontal scroll for the entire page 
+    overflow-y: auto; /* Enable vertical scroll for the entire page 
 }
+
 
 .container {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-
+reverify the style for the container class in the original file. 
 .row1,
 .row2,
 .row3,
 .row4 {
     width: 100%;
-    max-width: 1124px; /* Set max-width for better readability */
-    margin: 0 auto; /* Center the content */
-}
+    max-width: 1124px; /* Set max-width for better readability 
+    margin: 0 auto; /* Center the content 
+}*/
 
 .placard,
 .subEvNamInp,
