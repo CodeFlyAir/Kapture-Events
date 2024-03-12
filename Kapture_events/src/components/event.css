@@ -192,18 +192,18 @@ body {
 
 /* Media query for tablets and smaller screens */
 @media only screen and (max-width: 768px) {
-    body {
-        overflow-x: auto; /* Enable horizontal scroll for smaller screens */
-        overflow-y: auto; /* Enable vertical scroll for smaller screens */
-    }
+    /*body {*/
+    /*    overflow-x: auto; !* Enable horizontal scroll for smaller screens *!*/
+    /*    overflow-y: auto; !* Enable vertical scroll for smaller screens *!*/
+    /*}*/
 
-    .row1,
-    .row2,
-    .row3,
-    .row4 {
-        width: 100%;
-        max-width: none;
-    }
+    /*.row1,*/
+    /*.row2,*/
+    /*.row3,*/
+    /*.row4 {*/
+    /*    width: 100%;*/
+    /*    max-width: none;*/
+    /*}*/
 
     .placard,
     .subEvNamInp,
