@@ -24,7 +24,8 @@ const EventPage = ({ data }) => {
    }
 
   return (
-    <div className="container mx-auto p-4 bg-slaty text-white">
+    <>
+    <div className="container mx-auto p-4 text-white">
       <div className="grid grid-cols-2  justify-between">
         <div className='space-x-2 text-pinky font-poppins '>{data.address}    |    {data.date}
         
@@ -47,20 +48,22 @@ const EventPage = ({ data }) => {
       </div>
       <p className="my-4 text-sm">{data.description}</p>
       <div className="flex space-x-8 my-4">
+      <div
+  className={`font-poppins font-semibold text-xl h-8 my-6 text-white hover:underline ${option === 'Timeline' ? 'font-bold text-pink-500' : ''}`}
+  onClick={() => setOption('Timeline')}
+>
+  Timeline
+</div>
+
         <div
-         
-          className={`font-poppins font-semibold text-xl h-8 my-6 text-white hover:underline ${option === 'Timeline' ? 'font-bold text-pinky' : ''}`}
-          onClick={() => setOption('Timeline')} 
-        >
-          Timeline
-        </div>
-        <div
-          
-          className={` font-poppins font-semibold text-xl my-6 h-8 text-white hover:underline ${option === 'Special-Guest' ? 'font-bold text-pink-500' : ''}`}
-          onClick={() => setOption('Special-Guest')}
-        >
-          Special Guest
-        </div>
+  className={`font-poppins font-semibold text-xl my-6 h-8 text-white hover:underline cursor-pointer ${
+    option === 'Special-Guest' ? 'font-bold text-pink-500' : ''
+  }`}
+  onClick={() => setOption('Special-Guest')}
+>
+  Special Guest
+</div>
+ 
         <div
          
          className={`font-poppins font-semibold text-xl h-8 my-6 text-white hover:underline ${option === 'Sponsor' ? 'text-pink-500' : ''}`}
@@ -149,17 +152,17 @@ const EventPage = ({ data }) => {
         </div>
         
         <div className="rounded p-4 mb-4 bg-[#323843B0]"> {/* Add mb-4 for bottom margin */}
-          <h2 className="font-bold bg-[#323843B0] ">Eligibility Criteria</h2>
+          <h2 className="font-bold  ">Eligibility Criteria</h2>
           <li>{data.eligibilityCriteria}</li>
         </div>
       </div>
 
-      <div className="flex flex-col md:flex-row justify-between items-center rounded p-4 mt-4 bg-[#323843B0]">
+      <div className="flex flex-col md:flex-row justify-between items-center rounded p-0 ml-20 mt-4 mx-auto  ">
         <div >
            
-        <div>
+    
       {/* ... other event content ... */}
-      {data.Organizer.map((guest, index) => (
+      {data.organizer.map((guest, index) => (
         <Organizers
         
            
@@ -177,18 +180,20 @@ const EventPage = ({ data }) => {
         />
        
       ))}
-    </div>
+   
         </div>
       </div>
     </div> 
   </div>
 )}
-
-    <button className="bg-pinky hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 md:mt-0 mx-1/2">
+   
+      </div>
+      <div className='flex justify-center'>
+    <button className="bg-pinky hover:bg-blue-700 text-white font-bold mx-auto text-center rounded mt-4 md:mt-0 h-10 w-auto px-4">
           Register Now
         </button>
-
-      </div>
+        </div>
+      </>
       
   );
 };

@@ -5,8 +5,8 @@ import SpecialGox from '../../assets/special_guest.jpg'
 export default function Organizers({picture1 ='',name1,Job1,p_no1,gmail1, picture2='',name2='',Job2='',p_no2='',gmail2=''}) {
 
     return (
-<div className='flex flex-row bg-[#323843B0] '>
-    <figure class="md:flex bg-slate-100 rounded-xl p-8 md:p-0 bg-[#323843B0] my-6 w-1/2 mx-auto h-1/2 ">
+<div className='flex flex-row bg-[#323843B0] mx-auto  p-0 h-auto'>
+    <figure class="md:flex  rounded-xl p-8 md:p-0  my-6 w-1/2 mx-24 h-1/2 ">
       <img class="w-24 h-24 md:w-48 md:h-auto  rounded-full mx-auto p-4" src={SpecialGox}  alt="" width="384" height="512"/>
       <div class="pt-6 md:p-8 text-center md:text-left space-y-4">
         <blockquote>
@@ -31,7 +31,7 @@ export default function Organizers({picture1 ='',name1,Job1,p_no1,gmail1, pictur
 
    
 
-    <figure class="md:flex bg-slate-100 rounded-xl p-8 md:p-0 bg-[#323843B0] my-6 w-1/2 mx-auto h-1/2 ">
+    <figure class="md:flex  rounded-xl p-8 md:p-0  my-6 w-1/2 mx-auto h-1/2 ">
       <img class="w-24 h-24 md:w-48 md:h-auto  rounded-full mx-auto p-4" src={SpecialGox}  alt="" width="384" height="512"/>
       <div class="pt-6 md:p-8 text-center md:text-left space-y-4">
         <blockquote>
