@@ -1,3 +1,5 @@
+
+
 import { useEffect, useState } from "react";
 import ReactPaginate from "https://cdn.skypack.dev/react-paginate@7.1.3";
 import Card from "./Card.jsx";
@@ -38,6 +40,7 @@ export default function Images(props) {
             <div key={index} className="flex flex-row flex-wrap shadow-slate-50 overflow-hidden">
               <Card
                 className="flex flex-start ml-6 mr-6 p-4"
+                eventId={image.event_id}
                 image={image.thumbnail.fileUrl}
                 title={image.name}
                 organiser={image.organizerName}

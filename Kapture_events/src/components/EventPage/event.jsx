@@ -1,3 +1,6 @@
+Event.jsx
+
+
 import React, { useState } from 'react';
 import ProfilePics from './profile';
 import SpecialG from './specialG.jsx';
@@ -12,11 +15,24 @@ import gmail from '../../assets/gmail.svg';
 
 import Organizers from './organizer_card.jsx';
 
+import { useParams } from 'react-router-dom';
+
 import TimelineEntry from './timeline.jsx';
+
+import { useNavigate } from 'react-router-dom';
 const EventPage = ({ data }) => {
+
+  const navigate = useNavigate();
+  
+  const handleRegisterClick = () => {
+    navigate(`/registration/${data.event_id}`)
+  };
+
   const [option, setOption] = useState('Timeline');
   const [Date , setDate] = useState('1996-03-15');
   const [currentDate , setCurrentDate] = useState('1996-03-15');
+
+  const { eventId } = useParams();
    
   function settings (date){
     setDate(date);
@@ -189,7 +205,7 @@ const EventPage = ({ data }) => {
    
       </div>
       <div className='flex justify-center'>
-    <button className="bg-pinky hover:bg-blue-700 text-white font-bold mx-auto text-center rounded mt-4 md:mt-0 h-10 w-auto px-4">
+    <button className="bg-pinky hover:bg-blue-700 text-white font-bold mx-auto text-center rounded mt-4 md:mt-0 h-10 w-auto px-4 " onClick={handleRegisterClick}>
           Register Now
         </button>
         </div>
@@ -199,4 +215,4 @@ const EventPage = ({ data }) => {
 };
 
 
-export default EventPage;
+export default EventPage ;

@@ -1,12 +1,48 @@
+
+
+
+
 import React, { useState } from 'react';
+import axios from 'axios';
 
 function RegistrationForm() {
-    const [capacity, setCapacity] = useState(100); // Initial capacity is 100 seats
+
+  
+   
+    const [capacity, setCapacity] = useState(100);
+    const [formData, setFormData] = useState({
+        firstName: '',
+        lastName: '',
+        rollNumber: '',
+        contactNumber: '',
+        gender: '',
+        yearOfGraduation: ''
+    });
+
+    // Function to handle input changes
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
 
     // Function to handle registration
     const handleRegistration = () => {
-        setCapacity(capacity - 1); // Reduce capacity by 1
+        setCapacity(capacity - 1);
+        axios.post('/api/registration', formData)
+            .then(response => {
+                console.log(response.data);
+                alert('Registration submitted successfully!');
+                // You can reset the form data here if needed
+            })
+            .catch(error => {
+                console.error('There was an error!', error);
+                alert('Error submitting registration. Please try again later.');
+            });
     };
+
 
     return (
         <div className="registration-form flex flex-col items-center" style={{ marginLeft: '1cm' }}>
@@ -26,7 +62,7 @@ function RegistrationForm() {
             <h2 className="w-full text-center text-2xl font-bold text-white mb-4">Registration Form</h2>
             <div className="grid grid-cols-2 gap-4">
                 <div className="relative">
-                    <input type="text" id="firstName" placeholder="firstName" className="input-style rounded-lg border-2 border-pinky bg-slaty p-3 w-full text-lg text-pinky" style={{ paddingRight: '8rem' }} />
+                    <input type="text" name ="firstName" id="firstName" placeholder="firstName" className="input-style rounded-lg border-2 border-pinky bg-slaty p-3 w-full text-lg text-pinky" style={{ paddingRight: '8rem' }} />
                     <label htmlFor="firstName" className="absolute top-0 left-0 px-2 py-1 text-sm font-medium text-gray-700 underline"></label>
                 </div>
                 <div className="relative">
