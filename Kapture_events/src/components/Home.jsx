@@ -51,7 +51,7 @@ function Home() {
     return (
         <>
         
-        <App/>
+
         
         <ImageSlider slides={slides}/>
         <Filter_/>

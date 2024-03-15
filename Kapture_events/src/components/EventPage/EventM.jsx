@@ -79,7 +79,7 @@ let data = {
   export default function EventM() {
     return (
       <>
-      <App/>
+
         <Poster image={e_poster[0].src} />
         <EventPage data={data} />
         <Footer />
