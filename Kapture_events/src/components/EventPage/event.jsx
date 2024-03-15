@@ -19,10 +19,31 @@ import { useParams } from 'react-router-dom';
 
 import TimelineEntry from './timeline.jsx';
 
+import axios from 'axios';
+
 import { useNavigate } from 'react-router-dom';
 const EventPage = ({ data }) => {
 
-  const navigate = useNavigate();
+ 
+    const navigate = useNavigate();
+    const [eventDetails, setEventDetails] = React.useState({
+      date: '',
+      time: '',
+      venue: '',
+      name: '',
+      description: '',
+      fee: '',
+      seatsAvailable: '',
+      event_id: ''
+    });
+  
+    React.useEffect(() => {
+      axios.get('/api/event-details').then(response => {
+        setEventDetails(response.data);
+      });
+    }, []);
+  
+   
   
   const handleRegisterClick = () => {
     navigate(`/registration/${data.event_id}`)

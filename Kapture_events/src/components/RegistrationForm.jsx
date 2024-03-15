@@ -4,13 +4,15 @@
 
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useLocation } from 'react-router-dom';
 
 function RegistrationForm() {
 
-  
+    const location = useLocation();
+    const eventDetails = location.state || { date: '', time: '', fee: '', seatsAvailable: '', event_id: '' };
    
     const [capacity, setCapacity] = useState(100);
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState({ 
         firstName: '',
         lastName: '',
         rollNumber: '',
