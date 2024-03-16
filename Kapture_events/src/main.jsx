@@ -11,6 +11,10 @@ import Home from "./components/Home.jsx";
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
 
 import Error_page from './page/error_page/Error_page.jsx';
+import Registration_page from "./page/registration_page/Registration_page.jsx"
+import Error_page from './page/error_page/Error_page.jsx'
+
+
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -31,3 +35,11 @@ ReactDOM.createRoot(document.getElementById('root')).render(
        
     </React.StrictMode>
 );
+
+
+//ReactDOM.createRoot(document.getElementById('root')).render(
+//
+//  <React.StrictMode>  
+//    < Org_page/>
+//  </React.StrictMode>,
+//)
