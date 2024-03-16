@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useHistory, useLocation } from 'react-router-dom'; 
+import { useLocation } from 'react-router-dom';
 // Import useHistory and useLocation
 
 function RegistrationForm() {
-    const history = useHistory();
+
     const location = useLocation();
     const eventDetails = location.state || {};
 
