@@ -10,8 +10,6 @@ import Login_page from "./page/admin_page/Login_page.jsx";
 import Home from "./components/Home.jsx";
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
 
-import Error_page from './page/error_page/Error_page.jsx';
-import Registration_page from "./page/registration_page/Registration_page.jsx"
 import Error_page from './page/error_page/Error_page.jsx'
 
 
