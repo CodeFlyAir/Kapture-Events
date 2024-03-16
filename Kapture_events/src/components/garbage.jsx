@@ -1,3 +1,45 @@
+import axios from "axios";
+import { useEffect } from "react";
+
+
+
+const  body{
+  name:name
+}
+
+useEffect(() => {
+  axios.post('https://api.kapture.com/events',body)
+  .then((response) => {
+    setSlides[response.data];
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+}, []);
+
+ useEffect(() => {
+    axios.get('https://api.kapture.com/events')
+    .then((response) => {
+      console.log(response.data);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  }, []);
+{
+  data.map((event,index) => (
+
+    return (
+      <div key={event.id} className="card">
+        {event.title}
+      </div>
+    );
+  ));
+    }
+ 
+ 
+ 
+ 
  events = [
   {
     id: 1,

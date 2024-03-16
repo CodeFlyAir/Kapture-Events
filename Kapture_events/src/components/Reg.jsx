@@ -26,7 +26,7 @@ const slides = [
 function Reg() {
     return (
         <>
-            <App />
+        
             <div className="image-slider-container" >
                 <ImageSlider slides={slides}  />
             </div>
