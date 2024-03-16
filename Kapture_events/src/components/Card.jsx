@@ -1,5 +1,3 @@
-
-
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -7,7 +5,7 @@ const Card = ({ eventId, image, title, organiser, address, date }) => {
     const navigate = useNavigate();
 
     const handleRegisterClick = () => {
-        navigate(`/event/${eventId}`);
+        navigate(`/events/${eventId}`, { state: { eventId } }); // Pass eventId as state
     };
 
     return (
@@ -29,4 +27,3 @@ const Card = ({ eventId, image, title, organiser, address, date }) => {
 };
 
 export default Card;
-
