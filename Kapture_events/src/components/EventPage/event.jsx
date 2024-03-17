@@ -29,15 +29,8 @@ const EventPage = ( data ) => {
  
   
     const navigate = useNavigate();
-    const [eventDetails, setEventDetails] = React.useState({
-      startDate: '',   
-      name: '',
-      description: '',
-      event_id: ''
-    });
-    if(data){
-      console.log(data);
-    }
+    
+    
    
    
   
@@ -52,10 +45,10 @@ const EventPage = ( data ) => {
   const { eventId } = useParams();
    
   useEffect(() => {
-    if (data) {
-      setEventDetails(data);
+    if (data.data) {
+     
     }
-  }, [data]);
+  }, [data.data]);
   console.log(data);
 
   return (
