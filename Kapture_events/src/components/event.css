@@ -1,0 +1,262 @@
+/* Default styles for larger screens */
+body {
+    overflow-x: auto; /* Add horizontal scroll for the entire page */
+}
+
+.row1 {
+    display: flex;
+    width: 1124px;
+    justify-content: space-between;
+}
+
+.placard {
+    display: flex;
+    flex-direction: column;
+    border: solid black 1px;
+    width: fit-content;
+    align-items: center;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    font-style: normal;
+    font-size: 30px;
+    background-color: #303540;
+    border-radius: 20px;
+    color: white;
+    padding: 33px;
+    background-color: #303540;
+}
+
+.placard * {
+    background-color: inherit;
+}
+
+.placard>div {
+    margin: 20px;
+}
+
+input::placeholder {
+    font-size: larger;
+}
+
+input {
+    font-size: large;
+    padding: 10px;
+}
+
+select {
+    font-size: large;
+}
+
+option {
+    font-size: larger;
+}
+
+.DateInput::-webkit-calendar-picker-indicator {
+    margin: 5px;
+    background-color: white;
+    border-radius: 5px;
+    height: 25px;
+    width: 25px;
+}
+
+.DateInput::-webkit-calendar-picker-indicator:hover {
+    cursor: pointer;
+}
+
+.TimeInput::-webkit-calendar-picker-indicator {
+    margin: 5px;
+    background-color: white;
+    border-radius: 5px;
+    height: 25px;
+    width: 25px;
+}
+
+.TimeInput::-webkit-calendar-picker-indicator:hover {
+    cursor: pointer;
+}
+
+.subEvNamInp {
+    display: flex;
+    flex-direction: column;
+    border: solid 3px deeppink;
+    border-radius: 20px;
+    width: 894px;
+    height: 83px;
+    color: inherit;
+}
+
+.row2 {
+    display: flex;
+    width: 1124px;
+}
+
+.subEvDescInp {
+    width: 1124px;
+    height: 170px;
+    border-radius: 20px;
+    border: solid #FF0082 3px;
+}
+
+.row3 {
+    display: flex;
+    width: 1124px;
+    justify-content: space-between;
+}
+
+.row4 {
+    display: flex;
+    justify-content: space-between;
+    width: 1112px;
+    height: 87px;
+}
+
+.prefSel1 {
+    height: 100%;
+    width: 30%;
+    border: 3px solid #FF0082;
+    border-radius: 20px;
+}
+
+.my_button {
+    font-weight: 600;
+    font-style: normal;
+    font-size: 30px;
+    color: deeppink;
+    margin: auto;
+}
+
+.DateInput {
+    border: hidden;
+    border-radius: 20px;
+    width: 515px;
+    height: 83px;
+    margin-right: 3rem;
+    margin-left: 2rem;
+    border: solid #FF0082 3px;
+}
+
+.TimeInput {
+    border: hidden;
+    border-radius: 20px;
+    width: 515px;
+    height: 83px;
+    margin-left: 4rem;
+    border: solid #FF0082 3px;
+}
+
+/* Default styles for larger screens */
+/*
+body {
+    overflow-x: hidden; /* Disable horizontal scroll for the entire page 
+    overflow-y: auto; /* Enable vertical scroll for the entire page 
+}
+
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+reverify the style for the container class in the original file. 
+.row1,
+.row2,
+.row3,
+.row4 {
+    width: 100%;
+    max-width: 1124px; /* Set max-width for better readability 
+    margin: 0 auto; /* Center the content 
+}*/
+
+.placard,
+.subEvNamInp,
+.subEvDescInp,
+.prefSel1,
+.DateInput,
+.TimeInput {
+    width: 100%;
+    max-width: 1124px; /* Set max-width for better readability */
+    margin-left: 2rem; /* Center the content */
+}
+
+.main {
+    display: flex;
+    flex-wrap: wrap; /* Allow subevent blocks to wrap onto the next line */
+    justify-content: space-around; /* Add space between subevent blocks */
+    align-items: flex-start; /* Align items to the start of the flex container */
+    overflow-x: auto; /* Enable horizontal scroll for the main content */
+    white-space: nowrap; /* Prevent wrapping of elements inside the main container */
+}
+
+/* Add space between subevent blocks */
+.main > .placard {
+    margin: 10px; /* Adjust the gap size as needed */
+}
+
+/* Media query for tablets and smaller screens */
+@media only screen and (max-width: 768px) {
+    /*body {*/
+    /*    overflow-x: auto; !* Enable horizontal scroll for smaller screens *!*/
+    /*    overflow-y: auto; !* Enable vertical scroll for smaller screens *!*/
+    /*}*/
+
+    /*.row1,*/
+    /*.row2,*/
+    /*.row3,*/
+    /*.row4 {*/
+    /*    width: 100%;*/
+    /*    max-width: none;*/
+    /*}*/
+
+    .placard,
+    .subEvNamInp,
+    .subEvDescInp,
+    .prefSel1,
+    .DateInput,
+    .TimeInput {
+        width: 100%;
+        max-width: none;
+    }
+
+    .main {
+        overflow-x: auto; /* Enable horizontal scroll for smaller screens */
+        white-space: nowrap; /* Prevent wrapping of elements inside the main container */
+    }
+
+    /* Add space between subevent blocks for smaller screens */
+    .main > .placard {
+        margin: 10px; /* Adjust the gap size as needed */
+    }
+}
+
+
+/*.placHeader*/
+/*{ color: 'white', fontWeight: 'bold', fontSize: '18px' }*/
+
+/*.subEvNamInp{  border:'3px solid #F7418F',backgroundColor:'inherit',height:'83px', width:'894px',top:'1577px',left:'306px' ,borderRadius:'20px'}}*/
+
+/*.subEvDescInpstyle={ width: '1124px',  border:'3px solid #F7418F',backgroundColor:'inherit',top:'2200px' ,height:'107px',left:'83px',borderRadius:'20px'}*/
+
+/*.subEvDtInp{*/
+/*    border: '3px solid #F7418F',*/
+/*    backgroundColor: 'inherit',*/
+/*    height: '40px',*/
+/*    borderRadius: '10px',*/
+/*    marginLeft: '10px',*/
+/*}*/
+
+/*.timePicker{*/
+/*    border: '3px solid #F7418F',*/
+/*    backgroundColor: 'inherit',*/
+/*    height: '40px',*/
+/*    borderRadius: '10px',*/
+/*    marginLeft: '10px',*/
+/*}*/
+
+/*.prefSel1{*/
+/*    border: '3px solid #F7418F',*/
+/*    backgroundColor: 'inherit',*/
+/*    height: '40px',*/
+/*    borderRadius: '10px',*/
+/*    marginLeft: '10px',*/
+/*}*/
+

@@ -35,7 +35,7 @@ function Error() {
     return (
         <>
         
-        <App/>
+       
         <Errorshow/>
         <Footer/>
         
