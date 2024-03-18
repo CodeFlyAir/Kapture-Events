@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import sadface from '../assets/sadface.svg';
 import { FiSend, FiChevronDown } from 'react-icons/fi';
 
 function DropDown() {

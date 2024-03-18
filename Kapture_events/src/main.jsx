@@ -12,9 +12,9 @@ import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } 
 
 import Error_page from './page/error_page/Error_page.jsx'
 import Org_page from './page/org_dash-3/Org_dash-3.jsx'
-import DropDown from './components/dropdown.jsx'
-import EventStatus from './components/Eventstatus.jsx'
-import MediaCenter from './components/MediaCenter.jsx'
+import DropDown from './components/Organiser/EventPage/dropdown.jsx'
+import EventStatus from './components/Organiser/EventPage/Eventstatus.jsx'
+import MediaCenter from "./components/Organiser/EventPage/MediaCenter.jsx"
 import Org_home from './page/org_homepage/org_homepage.jsx'
 import Filternew_ from './components/org_filter.jsx';
 import OrgEvent from './page/OrganiserEvent_page/OrganiserEvent.jsx';
