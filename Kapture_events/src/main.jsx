@@ -11,7 +11,13 @@ import Home from "./components/Home.jsx";
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
 
 import Error_page from './page/error_page/Error_page.jsx'
-
+import Org_page from './page/org_dash-3/Org_dash-3.jsx'
+import DropDown from './components/Organiser/EventPage/dropdown.jsx'
+import EventStatus from './components/Organiser/EventPage/Eventstatus.jsx'
+import MediaCenter from "./components/Organiser/EventPage/MediaCenter.jsx"
+import Org_home from './page/org_homepage/org_homepage.jsx'
+import Filternew_ from './components/org_filter.jsx';
+import OrgEvent from './page/OrganiserEvent_page/OrganiserEvent.jsx';
 
 
 const router = createBrowserRouter(
@@ -27,17 +33,33 @@ const router = createBrowserRouter(
   )
 );
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-    <React.StrictMode>
-        <RouterProvider router={router} />
+
+// ReactDOM.createRoot(document.getElementById('root')).render(
+//     <React.StrictMode>
+//         <RouterProvider router={router} />
        
-    </React.StrictMode>
-);
+//     </React.StrictMode>
+// );
 
 
-//ReactDOM.createRoot(document.getElementById('root')).render(
-//
+
+// ReactDOM.createRoot(document.getElementById('root')).render(
+
 //  <React.StrictMode>  
 //    < Org_page/>
 //  </React.StrictMode>,
-//)
+// )
+
+
+// ReactDOM.createRoot(document.getElementById('root')).render(
+//   <React.StrictMode>  
+//     <MediaCenter/>
+//   </React.StrictMode>,
+// )
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+
+  <React.StrictMode>  
+    < DropDown/>
+  </React.StrictMode>,
+ )
