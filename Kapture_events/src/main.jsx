@@ -18,12 +18,13 @@ import MediaCenter from "./components/Organiser/EventPage/MediaCenter.jsx"
 import Org_home from './page/org_homepage/org_homepage.jsx'
 import Filternew_ from './components/org_filter.jsx';
 import OrgEvent from './page/OrganiserEvent_page/OrganiserEvent.jsx';
+import OAuthCallback from "./components/OAuthCallback.jsx";
 
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<Layout/>}>
-     
+        <Route path="/oauth2/callback" component={OAuthCallback} />
       <Route path='events' element={<Home />} />
       <Route path="events/:eventId" element={<CreateEvent />} />
       <Route path="registration/:eventId" element={<Registration_page />} />
