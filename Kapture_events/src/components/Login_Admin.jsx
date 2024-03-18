@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+
 import {useState} from "react";
 import ReactDOM from 'react-dom';
 import App from './header.jsx';
@@ -14,7 +15,19 @@ import img from "./Rectangle 3.png";
 
 
 const Login_Admin = () => {
+    const clientId = '454799539348-6pprtbja4g3k32l5qu1itlf1e04iugvq.apps.googleusercontent.com';
+    const redirectUri = encodeURIComponent('https://kapture-events.onrender.com/admin-approval');
+    const [email, setEmail] = useState('');
 
+
+
+    const handleLogin = async () => {
+        window.location.href = `https://accounts.google.com/o/oauth2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=email%20profile`;
+        const [email] = useState('');
+
+
+
+    };
     return (
         <>
             <App/>
@@ -44,6 +57,7 @@ const Login_Admin = () => {
                             <div className="mt-6">
                                 <button
                                     type="submit"
+                                    onClick={handleLogin}
                                     className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                                 >
                                     Log in
