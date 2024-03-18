@@ -14,7 +14,6 @@ const Card = ({ eventId, image, title, organiser, address, date }) => {
             // Redirect the user to the authorization URL
             window.location.href = authorizationUrl;
 
-
         } catch (error) {
             console.error('Error initiating OAuth 2.0 flow:', error);
             // Handle errors gracefully, e.g., show an error message to the user

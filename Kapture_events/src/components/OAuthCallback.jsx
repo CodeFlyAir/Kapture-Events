@@ -17,7 +17,7 @@ const OAuthCallback = () => {
                 code: code,
                 redirect_uri: 'https://kapture-events.onrender.com/login',
                 client_id: '454799539348-6pprtbja4g3k32l5qu1itlf1e04iugvq.apps.googleusercontent.com',
-                // client_secret: '',
+                client_secret: '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',
                 grant_type: 'authorization_code'
             })
                 .then(response => {
