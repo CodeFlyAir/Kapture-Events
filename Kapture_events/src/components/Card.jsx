@@ -1,11 +1,12 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 const Card = ({ eventId, image, title, organiser, address, date }) => {
     const navigate = useNavigate();
 
     const handleRegisterClick = () => {
-        navigate(`/events/${eventId}`, { state: { eventId } }); // Pass eventId as state
+        navigate(`/events/${eventId}`,  { state: { eventId, date, title } }); // Pass eventId as state
     };
 
     return (

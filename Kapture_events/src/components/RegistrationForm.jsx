@@ -1,36 +1,37 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom'; // Import useHistory and useLocation
+import Poster from './EventPage/poster';
 
 function RegistrationForm() {
     const navigate = useNavigate();
-    const location = useLocation();
-    const eventDetails = location.state || {};
+    const { state } = useLocation();
+    const { eventId,date, title , description ,picture} = state || {};
 
     const [capacity, setCapacity] = useState(100);
     const [formData, setFormData] = useState({ 
-        email: "2105991@kiit.ac.in",
-        roll: 991,
+        email: "21051001@kiit.ac.in",
+        roll: 1000,
         firstName: "BHHHHHH",
         lastName: "BHHHHHHHH",
         contact: 1000000000,
         gender: "M"
-    
+     
     });
 
     // Function to handle input changes
-    // const handleInputChange = (e) => {
-    //     const { name, value } = e.target;
-    //     setFormData(prevState => ({
-    //         ...prevState,
-    //         [name]: value
-    //     }));
-    // };
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
 
     // Function to handle registration
     const handleRegistration = () => {
         setCapacity(capacity - 1);
-        axios.post(`http://kapture-events.onrender.com/student/register?event-id=9738d5ed-4694-4627-8840-8e21cafbb043`, formData)
+        axios.post(`https://kapture-events.onrender.com/student/register?event-id=${eventId}`, formData)
             .then(response => {
                 console.log(response.data);
                 alert('Registration submitted successfully!');
@@ -44,14 +45,17 @@ function RegistrationForm() {
     };
 
     return (
+  <>
+        <Poster picture={picture} />
         <div className="registration-form flex flex-col items-center" style={{ marginLeft: '1cm' }}>
+
         <div className="w-full text-left text-white mb-4" style={{ marginLeft: '0cm' }}>
-            <div className="text-pinky text-2xl font-bold mt-8">KIIT Campus | </div>
+            <div className="text-pinky text-2xl font-bold mt-8">KIIT Campus | {date} </div>
             <div className="text-white text-lg mt-2 font-bold">
-                <u className="text-3xl">KIIT International Model United Nations</u>
+                <u className="text-3xl">{title}</u>
             </div>
             <div className="text-white text-lg mt-2">
-                Welcome to the KIIT International Model United Nations (KIIT MUN) – where diplomacy meets innovation! Join us for an unparalleled experience as aspiring young leaders come together to engage in insightful debates, collaborative problem-solving, and dynamic diplomacy simulation. Hosted by Kalinga Institute of Industrial Technology (KIIT), our MUN conference provides a platform..
+               {description}
             </div>
             <div className="flex justify-between items-center mt-2">
                 <div className="text-pinky text-lg">Remaining Seats: {capacity}</div>
@@ -91,6 +95,7 @@ function RegistrationForm() {
         </div>
         <button className="bg-pinky hover:bg-pink-700 text-white font-bold py-2 px-4 rounded mt-4" onClick={handleRegistration}>Register</button>
     </div>
+    </>
  );
 }
 

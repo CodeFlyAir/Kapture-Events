@@ -17,6 +17,8 @@ import Organizers from './organizer_card.jsx';
 
 import { useParams } from 'react-router-dom';
 
+import { useLocation } from 'react-router-dom';
+
 import TimelineEntry from './timeline.jsx';
 import React, { useState } from 'react';
 import axios from 'axios';
@@ -27,29 +29,28 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 const EventPage = ( data ) => {
  
+  const { state } = useLocation();
+  const { eventId, date, title } = state || {};
   
     const navigate = useNavigate();
+
+    var description = data.data.description;
+    var picture= data.data.thumbnail?.fileUrl
     
-    
+   
    
    
   
   const handleRegisterClick = () => {
-    navigate(`/registration/${data.data.event_id}`)
+   
+    navigate(`/registration/${eventId}`,  { state: { eventId,date, title , description ,picture} });
   };
 
   const [option, setOption] = useState('Timeline');
   const [Date , setDate] = useState('1996-03-15');
   const [currentDate , setCurrentDate] = useState('1996-03-15');
 
-  const { eventId } = useParams();
-   
-  useEffect(() => {
-    if (data.data) {
-     
-    }
-  }, [data.data]);
-  console.log(data);
+  
 
   return (
     <>
