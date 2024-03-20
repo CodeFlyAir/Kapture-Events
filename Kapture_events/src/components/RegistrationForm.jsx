@@ -10,8 +10,8 @@ function RegistrationForm() {
 
     const [capacity, setCapacity] = useState(100);
     const [formData, setFormData] = useState({ 
-        email: "21051001@kiit.ac.in",
-        roll: 1000,
+        email: "21051009@kiit.ac.in",
+        roll: 1009,
         firstName: "BHHHHHH",
         lastName: "BHHHHHHHH",
         contact: 1000000000,

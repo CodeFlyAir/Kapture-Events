@@ -8,7 +8,7 @@ const Card = ({ eventId, image, title, organiser, address, date }) => {
     const login = useGoogleLogin({
         onSuccess: (response) => {
             localStorage.setItem("accessToken", response.access_token);
-            navigate(`/events/${eventId}`);
+            navigate(`/events/${eventId}`,  { state: { eventId, date, title } });
         },
         onError: (err) => {
             console.error(err)
@@ -49,7 +49,7 @@ const Card = ({ eventId, image, title, organiser, address, date }) => {
                 <p className="text-gray-700 text-xs">{address} | {date}</p>
                 <button
                     className="bg-pinky hover:bg-blue-700 text-white font-bold mb-2 mt-2 p-1 rounded w-full"
-                    onClick={handleRegisterClick}
+                    onClick={login}
                 >
                     Register
                 </button>

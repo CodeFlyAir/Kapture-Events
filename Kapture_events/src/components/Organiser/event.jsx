@@ -17,7 +17,7 @@ import Organizers from './organizer_card.jsx';
 
 import { useParams } from 'react-router-dom';
 
-import TimelineEntry from './timeline.jsx';
+import TimelineEntry from '../Organiser/timeline.jsx';
 import React, { useState } from 'react';
 import axios from 'axios';
 
