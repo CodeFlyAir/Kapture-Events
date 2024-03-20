@@ -12,9 +12,11 @@ import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } 
 
 import Error_page from './page/error_page/Error_page.jsx'
 import Org_page from './page/org_dash-3/Org_dash-3.jsx'
-import DropDown from './components/Organiser/EventPage/dropdown.jsx'
-import EventStatus from './components/Organiser/EventPage/Eventstatus.jsx'
-import MediaCenter from "./components/Organiser/EventPage/MediaCenter.jsx"
+
+import TimelineEntry from './components/Organiser/timeline.jsx'
+import DropDown from './components/Organiser/dropdown.jsx'
+import EventStatus from './components/Organiser/Eventstatus.jsx'
+import MediaCenter from "./components/Organiser/MediaCenter.jsx"
 import Org_home from './page/org_homepage/org_homepage.jsx'
 import Filternew_ from './components/org_filter.jsx';
 import OrgEvent from './page/OrganiserEvent_page/OrganiserEvent.jsx';
@@ -49,7 +51,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 // ReactDOM.createRoot(document.getElementById('root')).render(
 
 //  <React.StrictMode>  
-//    < Org_page/>
+//    < TimelineEntry/>
 //  </React.StrictMode>,
 // )
 
@@ -61,7 +63,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 // )
 
 // ReactDOM.createRoot(document.getElementById('root')).render(
-//
+
 //   <React.StrictMode>
 //     < DropDown/>
 //   </React.StrictMode>,
