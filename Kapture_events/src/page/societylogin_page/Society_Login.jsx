@@ -6,6 +6,5 @@ import SocietyLogin from "../../components/SocietyLogin.jsx";
 export default function Society_Login() {
     return (
         <SocietyLogin/>
-
     );
 }

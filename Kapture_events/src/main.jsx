@@ -40,24 +40,24 @@ const router = createBrowserRouter(
 );
 
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-    <React.StrictMode>
-
-        <GoogleOAuthProvider clientId={"454799539348-6pprtbja4g3k32l5qu1itlf1e04iugvq.apps.googleusercontent.com"}>
-           <RouterProvider router={router} />
-        </GoogleOAuthProvider>
-
-    </React.StrictMode>
-);
-
-
-
 // ReactDOM.createRoot(document.getElementById('root')).render(
+//     <React.StrictMode>
 //
-//  <React.StrictMode>
-//    < Society_Login/>
-//  </React.StrictMode>,
-// )
+//         <GoogleOAuthProvider clientId={"454799539348-6pprtbja4g3k32l5qu1itlf1e04iugvq.apps.googleusercontent.com"}>
+//            <RouterProvider router={router} />
+//         </GoogleOAuthProvider>
+//
+//     </React.StrictMode>
+// );
+
+
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+
+ <React.StrictMode>
+   < Society_Login/>
+ </React.StrictMode>,
+)
 
 
 // ReactDOM.createRoot(document.getElementById('root')).render(
