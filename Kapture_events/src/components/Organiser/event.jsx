@@ -3,7 +3,7 @@
 
 
 import ProfilePics from './profile';
-import SpecialG from './specialG.jsx';
+import SpecialG from '../Organiser/specialG.jsx';
 
 import twitter from '../../assets/twitter.svg';
 
@@ -17,124 +17,166 @@ import Organizers from './organizer_card.jsx';
 
 import { useParams } from 'react-router-dom';
 
-import TimelineEntry from '../Organiser/timeline.jsx';
+import { useLocation } from 'react-router-dom';
+
+import TimelineEntry from './timeline.jsx';
 import React, { useState } from 'react';
 import axios from 'axios';
-
+import Add from '../../assets/addMore.svg'
+import del from '../../assets/delete.svg'
 import Poster from './poster.jsx';
 
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-const EventPage = ( data ) => {
- 
-  
-    const navigate = useNavigate();
-    const [eventDetails, setEventDetails] = React.useState({
-      startDate: '',   
-      name: '',
-      description: '',
-      event_id: ''
-    });
-    if(data){
-      console.log(data);
-    }
-   
-   
-  
+const EventPage = (data) => {
+
+  const { state } = useLocation();
+  const { eventId, date, title } = state || {};
+  const [imageUrl, setImageUrl] = useState(null);
+
+  const navigate = useNavigate();
+
+  var description = data.data.description;
+  var picture = data.data.thumbnail?.fileUrl
+
+  const [AddEvent, setAddEvent] = useState(false);
+  const [AddSponsor, setAddSponsor] = useState(false);
+
+
+  const HandleSpecialGuest = () => {
+    setAddEvent(!AddEvent)
+  }
+
+
+
+
   const handleRegisterClick = () => {
-    navigate(`/registration/${data.data.event_id}`)
+
+    navigate(`/registration/${eventId}`, { state: { eventId, date, title, description, picture } });
   };
 
   const [option, setOption] = useState('Timeline');
-  const [Date , setDate] = useState('1996-03-15');
-  const [currentDate , setCurrentDate] = useState('1996-03-15');
+  const [Date, setDate] = useState('1996-03-15');
+  const [currentDate, setCurrentDate] = useState('1996-03-15');
 
-  const { eventId } = useParams();
-   
-  useEffect(() => {
-    if (data) {
-      setEventDetails(data);
-    }
-  }, [data]);
-  console.log(data);
+  const HandleAddSponser = () => {  // Function to handle add sponsor   
+    setAddSponsor(!AddSponsor);
+  }
 
-  return (
-    <>
+
+
+  const HandleDeleteSponsor = (fileName) => {
+    axios.delete(`https://kapture-events.onrender.com/events/delete-sponsor?event-id=${eventId}&file-name=${fileName}`)
+      .then(response => {
+        console.log(response.data);
+        alert('Sponsor deleted successfully!');
+        // navigate(-1); // Navigate back to the previous page
+        // You can reset the form data here if needed
+      })
+      .catch(error => {
+        console.error('There was an error!', error);
+        alert('Error adding sponsor. Please try again later.');
+      });
+  };
+
+
+const HandlesaveAddSponser = async () => {
+  const response = await fetch(imageUrl);
+  const fileData = await response.blob(); // Get the file data as a Blob object
+  const formData = new FormData();
+  formData.append('image', fileData);
+  console.log(formData); // Check formData in the console to ensure it contains the file data
+
+  axios.post(`http://kapture-events.onrender.com/events/add-sponsor?event-id=${eventId}`, formData)
+    .then(response => {
+      console.log(response.data);
+      alert('Sponsor added successfully!');
+      // navigate(-1); // Navigate back to the previous page
+      // You can reset the form data here if needed
+    })
+    .catch(error => {
+      console.error('There was an error!', error);
+      alert('Error adding sponsor. Please try again later.');
+    });
+};
+
+
+return (
+  <>
     <Poster picture={data.data.thumbnail?.fileUrl} />
 
-    
+
     <div className="container mx-auto p-4 text-white">
       <div className="grid grid-cols-2  justify-between">
         <div className='space-x-2 text-pinky font-poppins '>{'KIIT CAMPUS'}    |    {data.data.startDate}
-        
+
         </div>
         <div className='flex flex-row ml-auto'>
           <p className='mx-1'>Share: </p>
           <img
-               src={twitter}
-               alt=""
-               className="w-4 h-4 my-1 mx-1"
-              onClick={() => window.open(data.data.socialMedia.instagram, '_blank')}
+            src={twitter}
+            alt=""
+            className="w-4 h-4 my-1 mx-1"
+            onClick={() => window.open(data.data.socialMedia.instagram, '_blank')}
           />
           <img
-               src={telegram}
-               alt=""
-               className="w-4 h-4 my-1 mx-1"
-              onClick={() => window.open(data.data.socialMedia.instagram, '_blank')}
+            src={telegram}
+            alt=""
+            className="w-4 h-4 my-1 mx-1"
+            onClick={() => window.open(data.data.socialMedia.instagram, '_blank')}
           />
 
           <img
-               src={whatsapp}
-               alt=""
-               className="w-4 h-4 my-1 mx-1"
-              onClick={() => window.open(data.socialMedia.instagram, '_blank')}
-          /> 
+            src={whatsapp}
+            alt=""
+            className="w-4 h-4 my-1 mx-1"
+            onClick={() => window.open(data.socialMedia.instagram, '_blank')}
+          />
 
-         <img
-               src={gmail}
-               alt=""
-               className="w-4 h-4 my-1 mx-1"
-              onClick={() => window.open(data.socialMedia.instagram, '_blank')}
-          /> 
-        
+          <img
+            src={gmail}
+            alt=""
+            className="w-4 h-4 my-1 mx-1"
+            onClick={() => window.open(data.socialMedia.instagram, '_blank')}
+          />
+
         </div>
-        
+
       </div>
       <div className='grid grid-cols-2  justify-between'>
-      <div className="text-4xl my-4 font-poppins font-bold">{data.data.name}</div>
-      <div className='ml-auto my-4 text-xl '>Registration Fee : ₹350</div>
+        <div className="text-4xl my-4 font-poppins font-bold">{data.data.name}</div>
+        <div className='ml-auto my-4 text-xl '>Registration Fee : ₹350</div>
       </div>
       <div>
-          
+
       </div>
       <p className="my-4 text-sm">{data.data.description}</p>
       <div className="flex space-x-8 my-4">
-      <div
-  className={`font-poppins font-semibold text-xl h-8 my-6 text-white hover:underline ${option === 'Timeline' ? 'font-bold text-pink-500' : ''}`}
-  onClick={() => setOption('Timeline')}
->
-  Timeline
-</div>
+        <div
+          className={`font-poppins font-semibold text-xl h-8 my-6 text-white hover:underline ${option === 'Timeline' ? 'font-bold text-pink-500' : ''}`}
+          onClick={() => setOption('Timeline')}
+        >
+          Timeline
+        </div>
 
         <div
-  className={`font-poppins font-semibold text-xl my-6 h-8 text-white hover:underline cursor-pointer ${
-    option === 'Special-Guest' ? 'font-bold text-pink-500' : ''
-  }`}
-  onClick={() => setOption('Special-Guest')}
->
-  Special Guest
-</div>
- 
+          className={`font-poppins font-semibold text-xl my-6 h-8 text-white hover:underline cursor-pointer ${option === 'Special-Guest' ? 'font-bold text-pink-500' : ''
+            }`}
+          onClick={() => setOption('Special-Guest')}
+        >
+          Special Guest
+        </div>
+
         <div
-         
-         className={`font-poppins font-semibold text-xl h-8 my-6 text-white hover:underline ${option === 'Sponsor' ? 'text-pink-500' : ''}`}
-        
+
+          className={`font-poppins font-semibold text-xl h-8 my-6 text-white hover:underline ${option === 'Sponsor' ? 'text-pink-500' : ''}`}
+
           onClick={() => setOption('Sponsor')}
         >
           Sponsor
         </div>
         <div
-        
+
           className={`font-poppins font-semibold text-xl h-8 my-6 text-white hover:underline ${option === 'Additional Details' ? ' text-pink-500' : ''}`}
           onClick={() => setOption('Additional Details')}
         >
@@ -142,125 +184,251 @@ const EventPage = ( data ) => {
         </div>
       </div>
 
-     
-  {/* Timeline content */}
-   
-  
-  {option === 'Timeline' && (
+
+      {/* Timeline content */}
+
+
+      {option === 'Timeline' && (
         <TimelineEntry events={data.data.subEvent} />
-  )}
+      )}
 
 
       {option === 'Special-Guest' && (
-        <div  className="my-4">
-           
-           <div>
-      {/* ... other event content ... */}
-      {data.data.specialGuest.map((guest, index) => (
-        <SpecialG
-          
-        picture={guest.image.fileUrl}
-        name={guest.name}
-        Job={guest.post}
-        Date={guest.date}
-        time={guest.time}
-        Address={guest.venue}
-          
-          
-          
-        />
-       
-      ))}
-    </div>
-          
-         
+        <div className="my-4">
+          <div>
+            <img src={Add} alt='edit' className='w-10 h-10 cursor-pointer'
+              onClick={HandleSpecialGuest} />
+
+
+            {AddEvent ? (
+              <>
+                <div className='bg-slate-700 p-4 rounded' style={{ color: 'white' }}>
+                  <input
+                    className='mb-2 p-2 w-full rounded'
+                    style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
+                    type='text'
+                    placeholder='Description'
+
+                    onChange={(e) => setDescription(e.target.value)}
+                  />
+                  <input
+                    className='mb-2 p-2 w-full rounded'
+                    style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
+                    type='date'
+
+                    onChange={(e) => setDate(e.target.value)}
+                  />
+                  <input
+                    className='mb-2 p-2 w-full rounded'
+                    style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
+                    type='time'
+
+                    onChange={(e) => setTime(e.target.value)}
+                  />
+                  <input
+                    className='mb-2 p-2 w-full rounded'
+                    style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
+                    type='text'
+                    placeholder='Venue'
+
+                    onChange={(e) => setVenue(e.target.value)}
+                  />
+
+                  <input
+                    className='mb-2 p-2 w-full rounded'
+                    style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
+                    type='file'
+                    accept='image/*'
+                    onChange={(e) => {
+                      const file = e.target.files[0];
+                      if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function (event) {
+                          setImageUrl(event.target.result);
+                        };
+                        reader.readAsDataURL(file);
+                      }
+                    }}
+                  />
+                  {/* Image preview */}
+                  {imageUrl && (
+                    <img
+                      className='mt-2 w-full rounded'
+                      style={{ maxHeight: '300px' }}
+                      src={imageUrl}
+                      alt='Event'
+                    />
+                  )}
+
+                </div>
+              </>
+            ) : (
+              <>
+
+              </>
+            )}
+            {AddEvent ? (
+              <button >Save</button>
+            ) : (
+              <div></div>
+            )}
+
+
+            {data.data.specialGuest.map((guest, index) => (
+              <SpecialG
+
+                picture={guest.image.fileUrl}
+                name={guest.name}
+                Job={guest.post}
+                Date={guest.date}
+                time={guest.time}
+                Address={guest.venue}
+              />
+            ))}
+          </div>
 
         </div>
       )}
 
+
+
+
       {option === 'Sponsor' && (
-        <div  className="my-4">
+        <div className="my-4">l̥
           {/* Sponsor content */}
+          <img src={Add} alt='edit' className='w-5 h-5 cursor-pointer mx-10 ' onClick={HandleAddSponser} />
+
+          {AddSponsor ? (
+            <>
+              <div className='bg-slate-700 p-4 rounded' style={{ color: 'white' }}>
+                {/* Existing inputs */}
+                {/* ... */}
+
+                {/* New input for image upload */}
+                <input
+                  className='mb-2 p-2 w-full rounded'
+                  style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
+                  type='file'
+                  accept='image/*'
+                  onChange={(e) => {
+                    const file = e.target.files[0];
+                    if (file) {
+                      const reader = new FileReader();
+                      reader.onload = function (event) {
+                        setImageUrl(event.target.result);
+                      };
+                      reader.readAsDataURL(file);
+                    }
+                  }}
+                />
+
+                {/* {imageUrl && (
+        <img
+          className='mt-2 w-full rounded'
+          style={{ maxHeight: '300px' }}
+          src={imageUrl}
+          alt='Event'
+        />
+      )} */}
+                <button onClick={HandlesaveAddSponser}>Save</button>
+              </div>
+            </>
+          ) : (
+            <>
+              {/* Other content */}
+            </>
+          )}
+
+
+
+
+
+
           <div className="flex space-x-4">
             {data.data.sponsors.map((item, index) => (
-              <img key={index} src={item.sponsor.fileUrl} alt="" className="w-20 h-20" />
+              <>
+                <img
+                  src={del}
+                  alt='edit'
+                  className='w-4 h-4 cursor-pointer'
+                  onClick={() => HandleDeleteSponsor(item.sponsor.fileName)}
+                />
+
+                <img key={index} src={item.sponsor.fileUrl} alt="" className="w-20 h-20" />
+              </>
             ))}
           </div>
         </div>
       )}
 
-{option === 'Additional Details' && (
-  <div className="my-4">
-    {/* Additional details content */}
-    <div className="container mx-auto p-4">
-      <div className="grid md:grid-cols-2 gap-4">
-        
-        <div className="rounded p-4 mb-4 bg-[#323843B0]"> {/* Add mb-4 for bottom margin */}
-          <h2 className="font-bold break-normal ">Team Formation Guidelines</h2>
-          <p>{data.data.additionalDetails.teamFormationGuidelines}</p>
-        </div>
-        
-        <div className="rounded p-4 mb-4 bg-[#323843B0]"> {/* Add mb-4 for bottom margin */}
-          <h2 className="font-bold">Download Resources</h2>
-          <a href={data.data.additionalDetails.resources[0].fileUrl}>{data.data.additionalDetails.resources[0].fileName}</a>
-        </div>
-      </div>
+      {option === 'Additional Details' && (
+        <div className="my-4">
+          {/* Additional details content */}
+          <div className="container mx-auto p-4">
+            <div className="grid md:grid-cols-2 gap-4">
 
-      <div className="grid md:grid-cols-2 gap-4 mt-4 ">
-        <div className="rounded p-4 mb-4 bg-[#323843B0]"> {/* Add mb-4 for bottom margin */}
-          <h2 className="font-bold">Rewards</h2>
-          <p>{data.data.additionalDetails.rewards}</p>
-        </div>
-        
-        <div className="rounded p-4 mb-4 bg-[#323843B0]"> {/* Add mb-4 for bottom margin */}
-          <h2 className="font-bold  ">Eligibility Criteria</h2>
-          <li>{data.data.additionalDetails.eligibilityCriteria}</li>
-        </div>
-      </div>
+              <div className="rounded p-4 mb-4 bg-[#323843B0]"> {/* Add mb-4 for bottom margin */}
+                <h2 className="font-bold break-normal ">Team Formation Guidelines</h2>
+                <p>{data.data.additionalDetails.teamFormationGuidelines}</p>
+              </div>
 
-      <div className="flex flex-col md:flex-row justify-between items-center rounded p-0 ml-20 mt-4 mx-auto  ">
-        <div >
-           
-    
-      {/* ... other event content ... */}
-      {data.data.contact.map((guest, index) => (
-        <Organizers
-        
-           
-        picture1={guest.image.fileUrl}
-        name1={guest.name}
-        Job1={guest.post}
-        p_no1={guest.contact}
-        gmail1={guest.email}
+              <div className="rounded p-4 mb-4 bg-[#323843B0]"> {/* Add mb-4 for bottom margin */}
+                <img src={del} alt='edit' className='w-4 h-4 cursor-pointer' />
+                <h2 className="font-bold">Download Resources</h2>
+                <a href={data.data.additionalDetails.resources[0].fileUrl}>{data.data.additionalDetails.resources[0].fileName}</a>
+              </div>
+            </div>
 
-        picture2={SpecialG}
-        name2={guest.name}
-        Job2={guest.jobProfile}
-        p_no2={guest.contact}
-        gmail2={guest.email}
-        />
-       
-      ))}
-   
+            <div className="grid md:grid-cols-2 gap-4 mt-4 ">
+              <div className="rounded p-4 mb-4 bg-[#323843B0]"> {/* Add mb-4 for bottom margin */}
+                <h2 className="font-bold">Rewards</h2>
+                <p>{data.data.additionalDetails.rewards}</p>
+              </div>
+
+              <div className="rounded p-4 mb-4 bg-[#323843B0]"> {/* Add mb-4 for bottom margin */}
+                <h2 className="font-bold  ">Eligibility Criteria</h2>
+                <li>{data.data.additionalDetails.eligibilityCriteria}</li>
+              </div>
+            </div>
+
+            <div className="flex flex-col md:flex-row justify-between items-center rounded p-0 ml-20 mt-4 mx-auto  ">
+              <div >
+
+
+                {/* ... other event content ... */}
+                {data.data.contact.map((guest, index) => (
+                  <Organizers
+
+
+                    picture1={guest.image.fileUrl}
+                    name1={guest.name}
+                    Job1={guest.post}
+                    p_no1={guest.contact}
+                    gmail1={guest.email}
+
+                  />
+
+                ))}
+
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </div> 
-  </div>
-)}
-   
-      </div>
-      <div className='flex justify-center'>
-    <button className="bg-pinky hover:bg-blue-700 text-white font-bold mx-auto text-center rounded mt-4 md:mt-0 h-10 w-auto px-4 " onClick={handleRegisterClick}>
-          Register Now
-        </button>
-        </div>
-      </>
-      
-  );
+      )}
+
+    </div>
+    <div className='flex justify-center'>
+      <button className="bg-pinky hover:bg-blue-700 text-white font-bold mx-auto text-center rounded mt-4 md:mt-0 h-10 w-auto px-4 " onClick={handleRegisterClick}>
+        Register Now
+      </button>
+    </div>
+  </>
+
+);
 };
 
 
-export default EventPage ;
+export default EventPage;
 
 
 
