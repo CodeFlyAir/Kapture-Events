@@ -38,6 +38,7 @@ const EventPage = (data) => {
 
   var description = data.data.description;
   var picture = data.data.thumbnail?.fileUrl
+  
 
   const [AddEvent, setAddEvent] = useState(false);
   const [AddSponsor, setAddSponsor] = useState(false);
@@ -311,7 +312,8 @@ return (
     <div className="mt-4">
       {data.data.specialGuest.map((guest, index) => (
         <SpecialG
-          key={index}
+         fileName={guest.image.fileName}
+          eventId={eventId}
           picture={guest.image.fileUrl}
           name={guest.name}
           Job={guest.post}
