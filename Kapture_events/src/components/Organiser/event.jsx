@@ -56,7 +56,7 @@ const EventPage = (data) => {
   };
 
   const [option, setOption] = useState('');
-  const [Date, setDate] = useState('');
+  const [dt, setdt] = useState('');
   const [Description , setDescription] = useState('');
   const [Time, setTime] = useState('');
   const [Venue, setVenue] = useState('Sub Event Venue 1');
@@ -112,28 +112,33 @@ const HandleAddSpecialguest = async (event) => {
   // Prevent the default form submission behavior
   event.preventDefault();
   
-  const [hour , minutes] = Time.split(':');
-  Date.setHours(hour);
-   Date.setMinutes(minutes);
-   
+  // Assuming you have already defined Time, dt, and other variables like description, Venue, etc.
 
+  // Create a dt object with the dt and time combined
+  const dtTimeString = `${dt}T${Time}:00.000Z`;
+  const eventdtTime = new Date(dtTimeString);
+
+  // Convert the dt object to a timestamp string
+  const formattedTime = eventdtTime.toISOString();
+
+  // Construct the JSON data object
   const jsonData = {
     'description': description,
-    'date': date,
-    'time': Date.toISOString(),
+    'dt': dt, // Assuming dt is already defined
+    'time': formattedTime,
     'venue': Venue
   };
-  const formData2 = new FormData();
-  formData2.append('jsonData', new Blob([JSON.stringify(jsonData)], { type: 'application/json' }));
-  // Append the image file to formData, 'image' is the key you'll refer to on the server side
-  // Assume 'file' is the File object you get from the input field after HandleFileChange
-  const response = await fetch(image);
-  const fileData = await response.blob(); // Get the file data as a Blob object
-  
-  formData2.append('image', fileData);
- 
 
-  // Set the headers for the request, 'Content-Type' must be 'multipart/form-data'
+  // Create a FormData object and append JSON data
+  const formData2 = new FormData();
+  formData2.append('jsonData', new Blob([JSON.stringify(jsonData)], { type: 'application/json'}));
+
+  // Fetch the image and append it to formData
+  const response = await fetch(image);
+  const fileData = await response.blob();
+  formData2.append('image', fileData);
+
+  // Set the headers for the request
   const config = {
     headers: {
       // 'Content-Type': 'multipart/form-data'
@@ -142,13 +147,16 @@ const HandleAddSpecialguest = async (event) => {
 
   try {
     // Make the POST request using axios
-    const response = await axios.post(`https://kapture-events.onrender.com/events/add-special-guest?event-id=${eventId}`, formData2,config);
+    const response = await axios.post(`https://kapture-events.onrender.com/events/add-special-guest?event-id=${eventId}`, formData2, config);
     console.log(response.data);
     // Handle the response accordingly
   } catch (error) {
     console.error('Error submitting form:', error);
   }
 };
+
+
+
 
 
 
@@ -160,7 +168,7 @@ return (
 
     <div className="container mx-auto p-4 text-white">
       <div className="grid grid-cols-2  justify-between">
-        <div className='space-x-2 text-pinky font-poppins '>{'KIIT CAMPUS'}    |    {data.data.startDate}
+        <div className='space-x-2 text-pinky font-poppins '>{'KIIT CAMPUS'}    |    {data.data.startdt}
 
         </div>
         <div className='flex flex-row ml-auto'>
@@ -261,7 +269,7 @@ return (
         <input
           className='mb-2 p-2 w-full rounded bg-opacity-10'
           type='date'
-          onChange={(e) => setDate(e.target.value)}
+          onChange={(e) => setdt(e.target.value)}
         />
         <input
           className='mb-2 p-2 w-full rounded bg-opacity-10'
@@ -307,7 +315,7 @@ return (
           picture={guest.image.fileUrl}
           name={guest.name}
           Job={guest.post}
-          Date={guest.date}
+          dt={guest.dt}
           time={guest.time}
           Address={guest.venue}
         />
@@ -446,8 +454,8 @@ export default EventPage;
 // {
 //   "event_id": "75505947-d98c-4d4a-852d-23707bdfb742",
 //   "name": "Crayons Fun",
-//   "startDate": "2024-04-03",
-//   "endDate": "2024-04-03",
+//   "startdt": "2024-04-03",
+//   "enddt": "2024-04-03",
 //   "description": "Sample event description",
 //   "organizerName": "Kraft",
 //   "thumbnail": {
@@ -505,7 +513,7 @@ export default EventPage;
 //           },
 //           "name": "Jack Ryan",
 //           "post": "IAS",
-//           "date": "2024-02-08T00:00:00.000+00:00",
+//           "dt": "2024-02-08T00:00:00.000+00:00",
 //           "time": "2024-02-08T10:00:00.000+00:00",
 //           "venue": "Sub Event Venue 1"
 //       }
@@ -521,22 +529,22 @@ export default EventPage;
 //       {
 //           "name": "Sub Event 1",
 //           "desc": null,
-//           "date": "2024-04-03T00:00:00.000+00:00",
+//           "dt": "2024-04-03T00:00:00.000+00:00",
 //           "time": "2024-04-03T10:00:00Z",
 //           "venue": "Sub Event Venue 1"
 //       },
 //       {
 //           "name": "Sub Event 2",
 //           "desc": null,
-//           "date": "2024-04-03T00:00:00.000+00:00",
+//           "dt": "2024-04-03T00:00:00.000+00:00",
 //           "time": "2024-04-03T14:00:00Z",
 //           "venue": "Sub Event Venue 2"
 //       }
 //   ],
-//   "updates": null,
+//   "updts": null,
 //   "eventStatus": [
 //       {
-//           "date": "2024-04-03T00:00:00.000+00:00",
+//           "dt": "2024-04-03T00:00:00.000+00:00",
 //           "status": "pending"
 //       }
 //   ],
