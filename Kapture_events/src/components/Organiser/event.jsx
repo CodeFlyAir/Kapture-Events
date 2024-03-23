@@ -15,7 +15,7 @@ import gmail from '../../assets/gmail.svg';
 
 import Organizers from './organizer_card.jsx';
 
-import { useParams } from 'react-router-dom';
+import { json, useParams } from 'react-router-dom';
 
 import { useLocation } from 'react-router-dom';
 
@@ -55,15 +55,20 @@ const EventPage = (data) => {
     navigate(`/registration/${eventId}`, { state: { eventId, date, title, description, picture } });
   };
 
-  const [option, setOption] = useState('Timeline');
-  const [Date, setDate] = useState('1996-03-15');
-  const [currentDate, setCurrentDate] = useState('1996-03-15');
+  const [option, setOption] = useState('');
+  const [Date, setDate] = useState('');
+  const [Description , setDescription] = useState('');
+  const [Time, setTime] = useState('');
+  const [Venue, setVenue] = useState('Sub Event Venue 1');
+  const [image, setImage] = useState(null);
+  
 
   const HandleAddSponser = () => {  // Function to handle add sponsor   
     setAddSponsor(!AddSponsor);
   }
 
-
+  
+  
 
   const HandleDeleteSponsor = (fileName) => {
     axios.delete(`https://kapture-events.onrender.com/events/delete-sponsor?event-id=${eventId}&file-name=${fileName}`)
@@ -95,10 +100,57 @@ const HandlesaveAddSponser = async () => {
       // You can reset the form data here if needed
     })
     .catch(error => {
-      console.error('There was an error!', error);
       alert('Error adding sponsor. Please try again later.');
+      console.error('There was an error!', error);
+      
     });
 };
+
+
+
+const HandleAddSpecialguest = async (event) => {
+  // Prevent the default form submission behavior
+  event.preventDefault();
+  
+  const [hour , minutes] = Time.split(':');
+  Date.setHours(hour);
+   Date.setMinutes(minutes);
+   
+
+  const jsonData = {
+    'description': description,
+    'date': date,
+    'time': Date.toISOString(),
+    'venue': Venue
+  };
+  const formData2 = new FormData();
+  formData2.append('jsonData', new Blob([JSON.stringify(jsonData)], { type: 'application/json' }));
+  // Append the image file to formData, 'image' is the key you'll refer to on the server side
+  // Assume 'file' is the File object you get from the input field after HandleFileChange
+  const response = await fetch(image);
+  const fileData = await response.blob(); // Get the file data as a Blob object
+  
+  formData2.append('image', fileData);
+ 
+
+  // Set the headers for the request, 'Content-Type' must be 'multipart/form-data'
+  const config = {
+    headers: {
+      // 'Content-Type': 'multipart/form-data'
+    }
+  };
+
+  try {
+    // Make the POST request using axios
+    const response = await axios.post(`https://kapture-events.onrender.com/events/add-special-guest?event-id=${eventId}`, formData2,config);
+    console.log(response.data);
+    // Handle the response accordingly
+  } catch (error) {
+    console.error('Error submitting form:', error);
+  }
+};
+
+
 
 
 return (
@@ -193,173 +245,131 @@ return (
       )}
 
 
-      {option === 'Special-Guest' && (
-        <div className="my-4">
-          <div>
-            <img src={Add} alt='edit' className='w-10 h-10 cursor-pointer'
-              onClick={HandleSpecialGuest} />
-
-
-            {AddEvent ? (
-              <>
-                <div className='bg-slate-700 p-4 rounded' style={{ color: 'white' }}>
-                  <input
-                    className='mb-2 p-2 w-full rounded'
-                    style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
-                    type='text'
-                    placeholder='Description'
-
-                    onChange={(e) => setDescription(e.target.value)}
-                  />
-                  <input
-                    className='mb-2 p-2 w-full rounded'
-                    style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
-                    type='date'
-
-                    onChange={(e) => setDate(e.target.value)}
-                  />
-                  <input
-                    className='mb-2 p-2 w-full rounded'
-                    style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
-                    type='time'
-
-                    onChange={(e) => setTime(e.target.value)}
-                  />
-                  <input
-                    className='mb-2 p-2 w-full rounded'
-                    style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
-                    type='text'
-                    placeholder='Venue'
-
-                    onChange={(e) => setVenue(e.target.value)}
-                  />
-
-                  <input
-                    className='mb-2 p-2 w-full rounded'
-                    style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
-                    type='file'
-                    accept='image/*'
-                    onChange={(e) => {
-                      const file = e.target.files[0];
-                      if (file) {
-                        const reader = new FileReader();
-                        reader.onload = function (event) {
-                          setImageUrl(event.target.result);
-                        };
-                        reader.readAsDataURL(file);
-                      }
-                    }}
-                  />
-                  {/* Image preview */}
-                  {imageUrl && (
-                    <img
-                      className='mt-2 w-full rounded'
-                      style={{ maxHeight: '300px' }}
-                      src={imageUrl}
-                      alt='Event'
-                    />
-                  )}
-
-                </div>
-              </>
-            ) : (
-              <>
-
-              </>
-            )}
-            {AddEvent ? (
-              <button >Save</button>
-            ) : (
-              <div></div>
-            )}
-
-
-            {data.data.specialGuest.map((guest, index) => (
-              <SpecialG
-
-                picture={guest.image.fileUrl}
-                name={guest.name}
-                Job={guest.post}
-                Date={guest.date}
-                time={guest.time}
-                Address={guest.venue}
-              />
-            ))}
-          </div>
-
-        </div>
-      )}
-
-
-
-
-      {option === 'Sponsor' && (
-        <div className="my-4">l̥
-          {/* Sponsor content */}
-          <img src={Add} alt='edit' className='w-5 h-5 cursor-pointer mx-10 ' onClick={HandleAddSponser} />
-
-          {AddSponsor ? (
-            <>
-              <div className='bg-slate-700 p-4 rounded' style={{ color: 'white' }}>
-                {/* Existing inputs */}
-                {/* ... */}
-
-                {/* New input for image upload */}
-                <input
-                  className='mb-2 p-2 w-full rounded'
-                  style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
-                  type='file'
-                  accept='image/*'
-                  onChange={(e) => {
-                    const file = e.target.files[0];
-                    if (file) {
-                      const reader = new FileReader();
-                      reader.onload = function (event) {
-                        setImageUrl(event.target.result);
-                      };
-                      reader.readAsDataURL(file);
-                    }
-                  }}
-                />
-
-                {/* {imageUrl && (
-        <img
-          className='mt-2 w-full rounded'
-          style={{ maxHeight: '300px' }}
-          src={imageUrl}
-          alt='Event'
+{option === 'Special-Guest' && (
+  <div className="my-4 flex flex-col">
+    <div className="flex justify-end">
+      <img src={Add} alt='add' className='w-10 h-10 cursor-pointer' onClick={HandleSpecialGuest} />
+    </div>
+    {AddEvent && (
+      <div className='bg-slate-700 p-4 rounded text-white mt-4'>
+        <input
+          className='mb-2 p-2 w-full rounded bg-opacity-10'
+          type='text'
+          placeholder='Description'
+          onChange={(e) => setDescription(e.target.value)}
         />
-      )} */}
-                <button onClick={HandlesaveAddSponser}>Save</button>
-              </div>
-            </>
-          ) : (
-            <>
-              {/* Other content */}
-            </>
+        <input
+          className='mb-2 p-2 w-full rounded bg-opacity-10'
+          type='date'
+          onChange={(e) => setDate(e.target.value)}
+        />
+        <input
+          className='mb-2 p-2 w-full rounded bg-opacity-10'
+          type='time'
+          onChange={(e) => setTime(e.target.value)}
+        />
+        <input
+          className='mb-2 p-2 w-full rounded bg-opacity-10'
+          type='text'
+          placeholder='Venue'
+          onChange={(e) => setVenue(e.target.value)}
+        />
+       <input
+        className='mb-2 p-2 w-full rounded'
+        style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
+        type='file'
+        accept='image/*'
+        onChange={(e) => {
+          const file = e.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+              setImage(event.target.result);
+            };
+            reader.readAsDataURL(file);
+          }
+        }}
+      />
+        {image && (
+          <img
+            className='mt-2 w-full rounded max-h-300px'
+            src={image}
+            alt='Event'
+          />
+        )}
+        <button onClick={HandleAddSpecialguest}>Save</button>
+      </div>
+    )}
+    <div className="mt-4">
+      {data.data.specialGuest.map((guest, index) => (
+        <SpecialG
+          key={index}
+          picture={guest.image.fileUrl}
+          name={guest.name}
+          Job={guest.post}
+          Date={guest.date}
+          time={guest.time}
+          Address={guest.venue}
+        />
+      ))}
+    </div>
+  </div>
+)}
+
+
+
+
+{option === 'Sponsor' && (
+  <div className="my-4 flex justify-between">
+    <div className="flex-grow">
+      {AddSponsor && (
+        <div className='bg-slate-700 p-4 rounded text-white'>
+         <input
+        className='mb-2 p-2 w-full rounded'
+        style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
+        type='file'
+        accept='image/*'
+        onChange={(e) => {
+          const file = e.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+              setImageUrl(event.target.result);
+            };
+            reader.readAsDataURL(file);
+          }
+        }}
+      />
+
+          {imageUrl && (
+            <img
+              className='mt-2 w-full rounded max-h-300px'
+              src={imageUrl}
+              alt='Sponsor'
+            />
           )}
-
-
-
-
-
-
-          <div className="flex space-x-4">
-            {data.data.sponsors.map((item, index) => (
-              <>
-                <img
-                  src={del}
-                  alt='edit'
-                  className='w-4 h-4 cursor-pointer'
-                  onClick={() => HandleDeleteSponsor(item.sponsor.fileName)}
-                />
-
-                <img key={index} src={item.sponsor.fileUrl} alt="" className="w-20 h-20" />
-              </>
-            ))}
-          </div>
+          <button onClick={HandlesaveAddSponser}>Save</button>
         </div>
       )}
+      <div className="flex space-x-4 mt-4">
+        {data.data.sponsors.map((item, index) => (
+          <div key={index} className="flex flex-col items-center">
+            <img
+              src={del}
+              alt='delete'
+              className='w-4 h-4 cursor-pointer mb-2'
+              onClick={() => HandleDeleteSponsor(item.sponsor.fileName)}
+            />
+            <img src={item.sponsor.fileUrl} alt={`Sponsor ${index}`} className="w-20 h-20 rounded-full border-2 border-pinky mx-3" />
+          </div>
+        ))}
+      </div>
+    </div>
+    <img src={Add} alt='add' className='w-10 h-10 cursor-pointer' onClick={HandleAddSponser} />
+  </div>
+)}
+
+
 
       {option === 'Additional Details' && (
         <div className="my-4">
