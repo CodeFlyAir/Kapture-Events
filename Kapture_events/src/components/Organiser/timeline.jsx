@@ -160,7 +160,7 @@ const EventCard = ({ description: initialDescription, dt: initialdt, time: initi
 const TimelineEntry = ({ events ,eventId }) => {
   const [AddEvent, setAddEvent] = useState(false);
   const [description, setDescription] = useState(events.description);
-  const [dt, setDt] = useState(events.dt);
+  const [date, setDate] = useState(events.date);
   const [time, setTime] = useState(events.time);
   const [venue, setVenue] = useState(events.venue);
 
@@ -173,15 +173,15 @@ const TimelineEntry = ({ events ,eventId }) => {
   }
 
   const handleAddEvent = () => {
-    const dtTimeString = `${dt}T${time}:00.000Z`;
-    const eventdtTime = new dt(dtTimeString);
+    const dateTimeString = `${date}T${time}:00.000Z`;
+    const eventdateTime = new Date(dateTimeString);
   
     // Convert the dt object to a timestamp string
-    const formattedTime = eventdtTime.toISOString();
+    const formattedTime = eventdateTime.toISOString();
   
     const formData = {
       'desc': description,
-      'dt': dt,
+      'date': date,
       'time': formattedTime,
       'venue': venue
     }
@@ -232,9 +232,9 @@ const TimelineEntry = ({ events ,eventId }) => {
             <input
               className='mb-2 p-2 w-full rounded'
               style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
-              type='dt'
+              type='date'
              
-              onChange={(e) => setDt(e.target.value)}
+              onChange={(e) => setDate(e.target.value)}
             />
             <input
               className='mb-2 p-2 w-full rounded'
