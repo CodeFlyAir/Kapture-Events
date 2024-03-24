@@ -169,7 +169,7 @@ return (
 
     <div className="container mx-auto p-4 text-white">
       <div className="grid grid-cols-2  justify-between">
-        <div className='space-x-2 text-pinky font-poppins '>{'KIIT CAMPUS'}    |    {data.data.startdt}
+        <div className='space-x-2 text-pinky font-poppins '>{'KIIT CAMPUS'}    |    {data.data.startdate}
 
         </div>
         <div className='flex flex-row ml-auto'>
@@ -250,7 +250,7 @@ return (
 
 
       {option === 'Timeline' && (
-        <TimelineEntry events={data.data.subEvent} />
+        <TimelineEntry events={data.data.subEvent} eventId={eventId} />
       )}
 
 
