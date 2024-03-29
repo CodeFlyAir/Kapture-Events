@@ -34,12 +34,13 @@ export default function Images(props) {
   return (
     <>
       {loading && <div className="buffering-icon">Loading...</div>}
-      <div className="flex flex-wrap items-center gap-1 m-auto w-20vw h-20vh text-white">
+      <div className="flex flex-wrap items-center gap-11 m-auto w-20vw h-20vh text-white mx-auto ">
         {currentItems &&
           currentItems.map((image, index) => (
-            <div key={index} className="flex flex-row flex-wrap shadow-slate-50 overflow-hidden">
+            <div key={index}  className="flex flex-row flex-wrap shadow-slate-50 overflow-hidden ">
               <Card
-                className="flex flex-start ml-6 mr-6 p-4"
+              className="flex flex-start ml-6 mr-6 p-4 w-1/8" 
+                // className="flex flex-start ml-6 mr-6 p-4"
                 eventId={image.event_id}
                 image={image.thumbnail.fileUrl}
                 title={image.name}

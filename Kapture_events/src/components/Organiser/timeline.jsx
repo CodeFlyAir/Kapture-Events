@@ -13,70 +13,54 @@ const Pillar = () => {
   return <div className='w-2 h-full bg-pinky mx-auto'></div>;
 };
 
-const EventCard = ({ description: initialDescription, dt: initialdt, time: initialTime, venue: initialVenue }) => {
+const EventCard = ({eventId, description:initialdescription , date: initialdate, time: initialTime, venue: initialVenue }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [description, setDescription] = useState(initialDescription);
-  const [dt, setdt] = useState(initialdt);
+  const [description, setDescription] = useState(initialdescription);
+  const [date, setdate] = useState(initialdate);
   const [time, setTime] = useState(initialTime);
   const [venue, setVenue] = useState(initialVenue);
   const [AddEvent, setAddEvent] = useState(false);
 
   const HandleTimelineDelete = () => {
-    // Declare formData at the top level of the function
-    let formData;
+    const dateTimeString = `${date}T${time}:00.000Z`;
   
-    // Ensure that dt and time are valid and correctly formatted
-    // Example format: dt = '2024-03-23', time = '14:30'
-    const dtTimeString = `${dt}T${time}:00.000Z`;
+    console.log(time);
+    console.log(date);
+    console.log(dateTimeString);
   
-    try {
-      console.log(dtTimeString);
-      const eventdtTime = new Date(dtTimeString);
 
-      console.log(eventdtTime);
+    const eventdateTime = new Date(dateTimeString);
   
-      if (isNaN(eventdtTime.getTime()) || !isValidTime(time)) {
-        throw new Error('Invalid date or time value');
-      }
+    // Convert the dt object to a timestamp string
+    // const formattedTime = eventdateTime.toISOString();
+    // console.log(formattedTime);
+    console.log(date);
   
-      const formattedTime = eventdtTime.toISOString();
-  
-      // Assign values to formData
-      formData = {
-        'desc': description,
-        'dt': dt,
-        'time': formattedTime,
-        'venue': venue
-      };
-  
-      const config = {
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        data: formData // Data to be sent with the DELETE request
-      };
-  
-      // Use formData within the axios call
-      axios.delete(`https://kapture-events.onrender.com/events/delete-sub-event?event-id=${eventId}`, config)
-        .then(response => {
-          console.log(response.data);
-          alert('Timeline deleted successfully!');
-          // navigate(-1); // Navigate back to the previous page
-        })
-        .catch(error => {
-          console.error('There was an error!', error);
-          alert('Error deleting timeline. Please try again later.');
-        });
-    } catch (error) {
-      console.error('Error constructing dt:', error);
-      alert('Invalid date or time. Please check your inputs.');
+    const formData = {
+      'desc': description,
+      'date': time,
+      'time': time,
+      'venue': venue
     }
-  };
+    console.log(formData);
+    console.log(formData);
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
   
-  // Function to validate time format (HH:mm)
-  const isValidTime = (time) => {
-    const regex = /^([01]\d|2[0-3]):([0-5]\d)$/;
-    return regex.test(time);
+    axios.post(`https://kapture-events.onrender.com/events/delete-sub-event?event-id=${eventId}`, formData)
+      .then(response => {
+        console.log(response.data);
+        alert('Registration submitted successfully!');
+        // Navigate back to the previous page
+        // You can reset the form data here if needed
+      })
+      .catch(error => {
+        console.error('There was an error!', error);
+        alert('Error submitting registration. Please try again later.');
+      });
   };
   
   
@@ -151,7 +135,7 @@ const EventCard = ({ description: initialDescription, dt: initialdt, time: initi
       )} */}
 
 <h3 className='font-bold text-lg mb-2' style={{ color: 'white' }}>{description}</h3>
-          <p className='text-sm mb-2' style={{ color: 'white' }}>{dt} | {time}</p>
+          <p className='text-sm mb-2' style={{ color: 'white' }}>{date} | {time}</p>
           {venue && <p className='text-xs mb-2' style={{ color: 'white' }}>{venue}</p>}
     </div>
   );
@@ -173,6 +157,7 @@ const TimelineEntry = ({ events ,eventId }) => {
   }
 
   const handleAddEvent = () => {
+    setAddEvent(false);
     const dateTimeString = `${date}T${time}:00.000Z`;
     const eventdateTime = new Date(dateTimeString);
   
@@ -204,8 +189,12 @@ const TimelineEntry = ({ events ,eventId }) => {
         console.error('There was an error!', error);
         alert('Error submitting registration. Please try again later.');
       });
+      
   };
   
+  const HandleCross = () => { 
+    setAddEvent(false);
+  }
   
 
   // Check if events is defined and is an array
@@ -220,7 +209,8 @@ const TimelineEntry = ({ events ,eventId }) => {
 
       {AddEvent ? ( 
         <>
-          <div className='bg-slate-700 p-4 rounded' style={{ color: 'white' }}>
+          <div className='bg-slate-700 p-4 rounded w-72' style={{ color: 'white' }}>
+          <img src={cross} alt='delete ' className='w-4 h-3 cursor-pointer my-3' onClick={HandleCross} />
             <input
               className='mb-2 p-2 w-full rounded'
               style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
@@ -275,7 +265,7 @@ const TimelineEntry = ({ events ,eventId }) => {
                 <EventCard
                   id={event.id}
                   description={event.description}
-                  dt={event.date}
+                  date={event.date}
                   time={event.time}
                   venue={event.venue}
                 />
@@ -287,7 +277,7 @@ const TimelineEntry = ({ events ,eventId }) => {
                 <EventCard
                   id={event.id}
                   description={event.description}
-                  dt={event.date}
+                  date={event.date}
                   time={event.time}
                   venue={event.venue}
                 />

@@ -5,6 +5,8 @@
 import ProfilePics from './profile';
 import SpecialG from '../Organiser/specialG.jsx';
 
+import cross from '../../assets/cross.svg'
+
 import twitter from '../../assets/twitter.svg';
 
 import telegram from '../../assets/telegram.svg';
@@ -42,10 +44,15 @@ const EventPage = (data) => {
 
   const [AddEvent, setAddEvent] = useState(false);
   const [AddSponsor, setAddSponsor] = useState(false);
+  const [AddSpecialGuest, setAddSpecialGuest] = useState(false);
+
+  const HandleSpecialGuestCross = () => { 
+    setAddSpecialGuest(false);
+  }
 
 
   const HandleSpecialGuest = () => {
-    setAddEvent(!AddEvent)
+    setAddSpecialGuest(!AddSpecialGuest)
   }
 
 
@@ -110,6 +117,7 @@ const HandlesaveAddSponser = async () => {
 
 
 const HandleAddSpecialguest = async (event) => {
+  setAddSpecialGuest(false);
   // Prevent the default form submission behavior
   event.preventDefault();
   
@@ -252,37 +260,46 @@ return (
       {option === 'Timeline' && (
         <TimelineEntry events={data.data.subEvent} eventId={eventId} />
       )}
-
+   
 
 {option === 'Special-Guest' && (
-  <div className="my-4 flex flex-col">
-    <div className="flex justify-end">
-      <img src={Add} alt='add' className='w-10 h-10 cursor-pointer' onClick={HandleSpecialGuest} />
+ <div className="my-4 flex flex-col gap-y-3 w-full">
+ <div className="flex justify-start">  
+   <img src={Add} alt='add' className='flex float-start w-10 h-10 cursor-pointer' onClick={HandleSpecialGuest} />
     </div>
-    {AddEvent && (
-      <div className='bg-slate-700 p-4 rounded text-white mt-4'>
-        <input
-          className='mb-2 p-2 w-full rounded bg-opacity-10'
-          type='text'
-          placeholder='Description'
-          onChange={(e) => setDescription(e.target.value)}
-        />
-        <input
-          className='mb-2 p-2 w-full rounded bg-opacity-10'
-          type='date'
-          onChange={(e) => setdt(e.target.value)}
-        />
-        <input
-          className='mb-2 p-2 w-full rounded bg-opacity-10'
-          type='time'
-          onChange={(e) => setTime(e.target.value)}
-        />
-        <input
-          className='mb-2 p-2 w-full rounded bg-opacity-10'
-          type='text'
-          placeholder='Venue'
-          onChange={(e) => setVenue(e.target.value)}
-        />
+    {AddSpecialGuest && (
+      <div className='bg-slate-700 p-4 rounded w-72' style={{ color: 'white' }}>
+        <img src={cross} alt='delete ' className='w-4 h-3 cursor-pointer my-3' onClick={HandleSpecialGuestCross} />
+            <input
+              className='mb-2 p-2 w-full rounded'
+              style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
+              type='text'
+              placeholder='Description'
+             
+              onChange={(e) => setDescription(e.target.value)}
+            />
+            <input
+              className='mb-2 p-2 w-full rounded'
+              style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
+              type='date'
+             
+              onChange={(e) => setdt(e.target.value)}
+            />
+            <input
+              className='mb-2 p-2 w-full rounded'
+              style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
+              type='time'
+             
+              onChange={(e) => setTime(e.target.value)}
+            />
+            <input
+              className='mb-2 p-2 w-full rounded'
+              style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
+              type='text'
+              placeholder='Venue'
+             
+              onChange={(e) => setVenue(e.target.value)}
+            />
        <input
         className='mb-2 p-2 w-full rounded'
         style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
