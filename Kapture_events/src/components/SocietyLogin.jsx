@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import bcrypt from 'bcryptjs';
+import CryptoJS from 'crypto-js';
 import App from './header.jsx';
 import Footer from './footer.jsx';
 import RegisterSociety from './RegisterSociety.jsx';
@@ -16,10 +16,22 @@ const SocietyLogin = () => {
         e.preventDefault();
 
         try {
-            const hashedPassword = bcrypt.hashSync(password, 10);
+//             const secretKey = "89cd4d36a76c216e1f5816b12b3db1349fd511bcc6094d21593008bbcb997c00"; // Secret key for AES encryption
+//             const encryptedPassword = CryptoJS.AES.encrypt(
+//               password,
+//               CryptoJS.enc.Utf8.parse(secretKey),
+//               {
+//                 mode: CryptoJS.mode.ECB,
+//                 padding: CryptoJS.pad.Pkcs7,
+//               }
+//             ).toString();
 
-            const response = await axios.get(`https://kapture-events.onrender.com/society/login?email-id=${email}&password=${hashedPassword}`);
-            console.log("Hashed password : ",hashedPassword);
+//             const response = await axios.get(`https://kapture-events.onrender.com/society/login?email-id=${email}&password=${encodeURIComponent(encryptedPassword)}`);
+            const password="test";
+            const response = await axios.get(`http://localhost:8080/society/login?email-id=${email}&password=${password}`);
+
+//             console.log("Encrypted password:", encryptedPassword);
+
             if (response) {
                 console.log('Login successful:', response.data);
             } else {
@@ -30,17 +42,17 @@ const SocietyLogin = () => {
         }
     };
 
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            const hashedPassword = bcrypt.hashSync("test", 10);
             console.log("Before post");
-            const response = await axios.post('https://kapture-events.onrender.com/society/register', {
+            const response = await axios.post('http://localhost:8080/society/register', {
                 societyName: "PetX",
                 contact: 8193647134,
                 emailId: "petx@gmail.com",
-                password: hashedPassword
+                password: "test"
             });
 
             console.log('Registration successful:', response.data);
