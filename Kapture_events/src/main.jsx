@@ -22,6 +22,8 @@ import Filternew_ from './components/org_filter.jsx';
 import OrgEvent from './page/OrganiserEvent_page/OrganiserEvent.jsx';
 import OAuthCallback from "./components/OAuthCallback.jsx";
 import {GoogleOAuthProvider} from "@react-oauth/google";
+import Society_Login from "./page/societylogin_page/Society_Login.jsx";
+import RegisterSociety from "./components/RegisterSociety.jsx";
 
 
 const router = createBrowserRouter(
@@ -38,22 +40,24 @@ const router = createBrowserRouter(
 );
 
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-    <React.StrictMode>
-        <GoogleOAuthProvider clientId={"454799539348-6pprtbja4g3k32l5qu1itlf1e04iugvq.apps.googleusercontent.com"}>
-            <RouterProvider router={router} />
-        </GoogleOAuthProvider>
-    </React.StrictMode>
-);
-
-
-
 // ReactDOM.createRoot(document.getElementById('root')).render(
+//     <React.StrictMode>
+//
+//         <GoogleOAuthProvider clientId={"454799539348-6pprtbja4g3k32l5qu1itlf1e04iugvq.apps.googleusercontent.com"}>
+//            <RouterProvider router={router} />
+//         </GoogleOAuthProvider>
+//
+//     </React.StrictMode>
+// );
 
-//  <React.StrictMode>  
-//    < TimelineEntry/>
-//  </React.StrictMode>,
-// )
+
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+
+ <React.StrictMode>
+   < Society_Login/>
+ </React.StrictMode>,
+)
 
 
 // ReactDOM.createRoot(document.getElementById('root')).render(
