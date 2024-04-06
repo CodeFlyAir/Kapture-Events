@@ -37,7 +37,6 @@ const Login_Admin = (eventId,date,title) => {
     return (
         <>
 
-            <App/>
             <div className="min-h-screen bg-slaty flex flex-col justify-center py-15 sm:px-6 lg:px-8">
                 <div className="sm:mx-auto sm:w-full sm:max-w-md">
                     <div className="text-center">

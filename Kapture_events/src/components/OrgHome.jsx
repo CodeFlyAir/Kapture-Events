@@ -40,26 +40,22 @@ const images = [
     { src: image4, alt: "A colorful painting" },
 ];
 
-
-
-
-
-function Org_home1() {
+  function OrgHomePage() {
     return (
         <>
         
         
-        
-        <ImageSlider slides={slides}/>
-        <Filternew_/>
-        
-        <Pict/>
+     
+          <ImageSlider slides={slides} />
+           <Filternew_/>
+           <Pict/>
         <FooterCreateEvent/>
          <Gallerym/>
        <Footer/>
         
-        </>
-    )
-}
+        
+    </>
+    );
+ }
 
-export default Org_home1
+ export default OrgHomePage;

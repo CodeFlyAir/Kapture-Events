@@ -7,7 +7,7 @@ function RegistrationForm() {
     const navigate = useNavigate();
     const { state } = useLocation();
     const { eventId,date, title , description ,picture} = state || {};
-
+   
     const [capacity, setCapacity] = useState(100);
     const [formData, setFormData] = useState({ 
         email: "21051009@kiit.ac.in",
@@ -66,7 +66,7 @@ function RegistrationForm() {
         <div className="grid grid-cols-2 gap-4">
             <div className="relative">
                 <input type="text" name ="firstName" id="firstName" placeholder="firstName" className="input-style rounded-lg border-2 border-pinky bg-slaty p-3 w-full text-lg text-pinky" style={{ paddingRight: '8rem' }} />
-                <label htmlFor="firstName" className="absolute top-0 left-0 px-2 py-1 text-sm font-medium text-gray-700 underline"></label>
+                <label htmlFor="firstName" className="absolute top-0 left-0 px-2 py-1 text-sm font-medium text-gray-700 underline" ></label>
             </div>
             <div className="relative">
                 <input type="text" id="lastName" placeholder="lastName" className="input-style rounded-lg border-2  border-pinky bg-slaty p-3 w-full text-lg text-pinky" style={{ paddingRight: '8rem' }} />

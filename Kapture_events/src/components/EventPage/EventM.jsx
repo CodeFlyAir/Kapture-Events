@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from 'react-router-dom'; // Import useLocation
 import axios from 'axios';
-import EventPage from "./event.jsx";
+import EventPage from "../Organiser/event.jsx";
 import Footer from "../footer.jsx";
 import Poster from "./poster.jsx";
 

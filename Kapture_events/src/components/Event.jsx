@@ -191,7 +191,7 @@ function CreateEventForm() {
                             id={`subEventTime-${index}`}
                             name={`subEventTime-${index}`}
                             value={subEvent.time}
-                            onChange={(event) => handleInputChange2(event, index)}
+                            onChange={(event) => handleInputChange2(e.target.value, index)}
                             // style={{
                             //     border: '3px solid #F7418F',
                             //     backgroundColor: 'inherit',
