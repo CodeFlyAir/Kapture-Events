@@ -100,7 +100,7 @@ function AdminApproval (){
     return (
         <>
 
-            <App/>
+        
            <Approval/>
             <Footer/>
 

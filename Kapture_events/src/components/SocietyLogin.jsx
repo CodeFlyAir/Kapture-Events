@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import CryptoJS from 'crypto-js';
+
 import App from './header.jsx';
 import Footer from './footer.jsx';
 import RegisterSociety from './RegisterSociety.jsx';
@@ -28,12 +28,16 @@ const SocietyLogin = () => {
 
 //             const response = await axios.get(`https://kapture-events.onrender.com/society/login?email-id=${email}&password=${encodeURIComponent(encryptedPassword)}`);
             const password="test";
-            const response = await axios.get(`http://localhost:8080/society/login?email-id=${email}&password=${password}`);
+            // https://kapture-events.onrender.com/society/login?email-id=kzaarshion@gmail.com&password=test
+            const response = await axios.get(` https://kapture-events.onrender.com/society/login?email-id=${email}&password=${password}`);
 
 //             console.log("Encrypted password:", encryptedPassword);
 
             if (response) {
                 console.log('Login successful:', response.data);
+                if(response.data){
+                    window.location.href = '/org_home';
+                }
             } else {
                 console.log("Login failed : ", response.data);
             }
@@ -46,19 +50,19 @@ const SocietyLogin = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        try {
-            console.log("Before post");
-            const response = await axios.post('http://localhost:8080/society/register', {
-                societyName: "PetX",
-                contact: 8193647134,
-                emailId: "petx@gmail.com",
-                password: "test"
-            });
+        // try {
+        //     console.log("Before post");
+        //     const response = await axios.post('http://localhost:8080/society/register', {
+        //         societyName: "PetX",
+        //         contact: 8193647134,
+        //         emailId: "petx@gmail.com",
+        //         password: "test"
+        //     });
 
-            console.log('Registration successful:', response.data);
-        } catch (error) {
-            console.error('Error during registration:', error);
-        }
+        //     console.log('Registration successful:', response.data);
+        // } catch (error) {
+        //     console.error('Error during registration:', error);
+        // }
     };
 
     const handleRequestPass = () => {
@@ -67,7 +71,7 @@ const SocietyLogin = () => {
 
     return (
         <>
-            <App />
+           
             <div className="min-h-screen bg-slaty flex flex-col justify-center py-15 sm:px-6 lg:px-8">
                 <div className="sm:mx-auto sm:w-full sm:max-w-md">
                     <div className="text-center">
