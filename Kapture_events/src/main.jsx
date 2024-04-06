@@ -24,6 +24,8 @@ import OAuthCallback from "./components/OAuthCallback.jsx";
 import {GoogleOAuthProvider} from "@react-oauth/google";
 import Society_Login from "./page/societylogin_page/Society_Login.jsx";
 import RegisterSociety from "./components/RegisterSociety.jsx";
+import Login_Admin from "./components/Login_Admin.jsx";
+import Home_page from "./page/home_page/Home_page.jsx";
 
 
 const router = createBrowserRouter(
@@ -35,29 +37,31 @@ const router = createBrowserRouter(
       <Route path="registration/:eventId" element={<Registration_page />} />
       <Route path="login" element={<Login_page />} />
       <Route path="*" element={<Error_page />} />
+        <Route path="admin/login" element={<Login_Admin/>}/>
     </Route>
   )
 );
 
 
-// ReactDOM.createRoot(document.getElementById('root')).render(
-//     <React.StrictMode>
+
 //
-//         <GoogleOAuthProvider clientId={"454799539348-6pprtbja4g3k32l5qu1itlf1e04iugvq.apps.googleusercontent.com"}>
-//            <RouterProvider router={router} />
-//         </GoogleOAuthProvider>
-//
-//     </React.StrictMode>
-// );
+
+        <GoogleOAuthProvider clientId={"454799539348-6pprtbja4g3k32l5qu1itlf1e04iugvq.apps.googleusercontent.com"}>
+           <RouterProvider router={router} />
+        </GoogleOAuthProvider>
+
+    </React.StrictMode>
+);
 
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
 
  <React.StrictMode>
-   < Society_Login/>
+   <Home_page/>
  </React.StrictMode>,
 )
+
 
 
 // ReactDOM.createRoot(document.getElementById('root')).render(

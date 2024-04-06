@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
+import {useState} from "react";
 import axios from 'axios';
-import CryptoJS from 'crypto-js';
+
 import App from './header.jsx';
 import Footer from './footer.jsx';
 import RegisterSociety from './RegisterSociety.jsx';
+import {useNavigate} from "react-router-dom";
 
 const SocietyLogin = () => {
     const [email, setEmail] = useState('');
@@ -28,12 +30,13 @@ const SocietyLogin = () => {
 
 //             const response = await axios.get(`https://kapture-events.onrender.com/society/login?email-id=${email}&password=${encodeURIComponent(encryptedPassword)}`);
             const password="test";
-            const response = await axios.get(`http://localhost:8080/society/login?email-id=${email}&password=${password}`);
+            const response = await axios.get(`https://kapture-events.onrender.com/society/login?email-id=${email}&password=${password}`);
 
 //             console.log("Encrypted password:", encryptedPassword);
+            console.log(response);
 
-            if (response) {
-                console.log('Login successful:', response.data);
+            if (response.data) {
+               // console.log('Login successful:', response.data); idhar navigate hoga suresh bro
             } else {
                 console.log("Login failed : ", response.data);
             }
