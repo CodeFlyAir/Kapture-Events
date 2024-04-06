@@ -27,6 +27,7 @@ import axios from 'axios';
 import Add from '../../assets/addMore.svg'
 import del from '../../assets/delete.svg'
 import Poster from './poster.jsx';
+import edit from '../../assets/edit.svg'
 
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
@@ -45,6 +46,17 @@ const EventPage = (data) => {
   const [AddEvent, setAddEvent] = useState(false);
   const [AddSponsor, setAddSponsor] = useState(false);
   const [AddSpecialGuest, setAddSpecialGuest] = useState(false);
+  const [EditTeamGuideline, setEditTeamGuideline] = useState(false);
+ 
+  
+  const [TeamGuidelines, setTeamGuidelines] = useState(data.data.additionalDetails?.teamFormationGuidelines || "No Data");
+  
+  console.log(data.data.additionalDetails);
+  console.log("timeline data",data.data.additionalDetails?.teamFormationGuidelines);
+  console.log("data is",TeamGuidelines);
+  // response.data.teamFormationGuidelines
+  // data.data.additionalDetails?.teamFormationGuidelines
+  
 
   const HandleSpecialGuestCross = () => { 
     setAddSpecialGuest(false);
@@ -65,10 +77,12 @@ const EventPage = (data) => {
 
   const [option, setOption] = useState('');
   const [dt, setdt] = useState('');
-  const [Description , setDescription] = useState('');
+  const [post , setPost] = useState('');
+  const [Description, setDescription] = useState('');
   const [Time, setTime] = useState('');
   const [Venue, setVenue] = useState('Sub Event Venue 1');
   const [image, setImage] = useState(null);
+  const [Name, setName] = useState('xyz');
   
 
   const HandleAddSponser = () => {  // Function to handle add sponsor   
@@ -98,11 +112,11 @@ const HandlesaveAddSponser = async () => {
   const fileData = await response.blob(); // Get the file data as a Blob object
   const formData = new FormData();
   formData.append('image', fileData);
-  console.log(formData); // Check formData in the console to ensure it contains the file data
+   // Check formData in the console to ensure it contains the file data
 
   axios.post(`http://kapture-events.onrender.com/events/add-sponsor?event-id=${eventId}`, formData)
     .then(response => {
-      console.log(response.data);
+     
       alert('Sponsor added successfully!');
       // navigate(-1); // Navigate back to the previous page
       // You can reset the form data here if needed
@@ -132,11 +146,13 @@ const HandleAddSpecialguest = async (event) => {
 
   // Construct the JSON data object
   const jsonData = {
-    'description': description,
-    'dt': dt, // Assuming dt is already defined
+    'name': Name,
+    'post': post,
+    'date': dt, // Assuming dt is already defined
     'time': formattedTime,
     'venue': Venue
   };
+
 
   // Create a FormData object and append JSON data
   const formData2 = new FormData();
@@ -146,6 +162,7 @@ const HandleAddSpecialguest = async (event) => {
   const response = await fetch(image);
   const fileData = await response.blob();
   formData2.append('image', fileData);
+  
 
   // Set the headers for the request
   const config = {
@@ -157,12 +174,41 @@ const HandleAddSpecialguest = async (event) => {
   try {
     // Make the POST request using axios
     const response = await axios.post(`https://kapture-events.onrender.com/events/add-special-guest?event-id=${eventId}`, formData2, config);
-    console.log(response.data);
+    
     // Handle the response accordingly
   } catch (error) {
     console.error('Error submitting form:', error);
   }
 };
+
+const HandleTeamGuidelineEdit = () => {
+  setEditTeamGuideline(!EditTeamGuideline);
+   
+}
+
+// const HandleSaveEditTeamGuideline = async () => {
+  const HandleSaveEditTeamGuideline = async () => {
+    console.log("dc at axios" ,TeamGuidelines);
+   
+    axios.post(`https://kapture-events.onrender.com/events/edit-team-formation-guidelines?event-id=${eventId}`, {
+      data: TeamGuidelines
+    })
+        .then(response => {
+          const teamFormationGuidelines = response.data.data;
+          console.log('Team Formation Guidelines:', teamFormationGuidelines);
+          alert('Edited submitted successfully!');
+         
+            // You can reset the form data here if needed
+        })
+        .catch(error => {
+            console.error('There was an error!', error);
+            alert('Error submitting . Please try again later.');
+        });
+};
+
+
+
+
 
 
 
@@ -177,7 +223,7 @@ return (
 
     <div className="container mx-auto p-4 text-white">
       <div className="grid grid-cols-2  justify-between">
-        <div className='space-x-2 text-pinky font-poppins '>{'KIIT CAMPUS'}    |    {data.data.startdate}
+        <div className='space-x-2 text-pinky font-poppins '>{'KIIT CAMPUS'}    |    {data.data.startDate}
 
         </div>
         <div className='flex flex-row ml-auto'>
@@ -274,9 +320,9 @@ return (
               className='mb-2 p-2 w-full rounded'
               style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
               type='text'
-              placeholder='Description'
+              placeholder='Name '
              
-              onChange={(e) => setDescription(e.target.value)}
+              onChange={(e) => setName(e.target.value)}
             />
             <input
               className='mb-2 p-2 w-full rounded'
@@ -291,6 +337,14 @@ return (
               type='time'
              
               onChange={(e) => setTime(e.target.value)}
+            />
+             <input
+              className='mb-2 p-2 w-full rounded'
+              style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
+              type='text'
+              placeholder='Post' 
+             
+              onChange={(e) => setPost(e.target.value)}
             />
             <input
               className='mb-2 p-2 w-full rounded'
@@ -327,7 +381,9 @@ return (
       </div>
     )}
     <div className="mt-4">
-      {data.data.specialGuest.map((guest, index) => (
+   
+      {data.data.specialGuest && data.data.specialGuest.map((guest, index) => (
+        
         <SpecialG
          fileName={guest.image.fileName}
           eventId={eventId}
@@ -379,7 +435,7 @@ return (
         </div>
       )}
       <div className="flex space-x-4 mt-4">
-        {data.data.sponsors.map((item, index) => (
+        {data.data.sponsors && data.data.sponsors.map((item, index) => (
           <div key={index} className="flex flex-col items-center">
             <img
               src={del}
@@ -398,60 +454,101 @@ return (
 
 
 
-      {option === 'Additional Details' && (
-        <div className="my-4">
-          {/* Additional details content */}
-          <div className="container mx-auto p-4">
-            <div className="grid md:grid-cols-2 gap-4">
+{option === 'Additional Details' && (
+  <div className="my-4">
+    {/* Additional details content */}
+    <div className="container mx-auto p-4">
+      <div className="grid md:grid-cols-2 gap-4">
 
-              <div className="rounded p-4 mb-4 bg-[#323843B0]"> {/* Add mb-4 for bottom margin */}
-                <h2 className="font-bold break-normal ">Team Formation Guidelines</h2>
-                <p>{data.data.additionalDetails.teamFormationGuidelines}</p>
-              </div>
-
-              <div className="rounded p-4 mb-4 bg-[#323843B0]"> {/* Add mb-4 for bottom margin */}
-                <img src={del} alt='edit' className='w-4 h-4 cursor-pointer' />
-                <h2 className="font-bold">Download Resources</h2>
-                <a href={data.data.additionalDetails.resources[0].fileUrl}>{data.data.additionalDetails.resources[0].fileName}</a>
-              </div>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-4 mt-4 ">
-              <div className="rounded p-4 mb-4 bg-[#323843B0]"> {/* Add mb-4 for bottom margin */}
-                <h2 className="font-bold">Rewards</h2>
-                <p>{data.data.additionalDetails.rewards}</p>
-              </div>
-
-              <div className="rounded p-4 mb-4 bg-[#323843B0]"> {/* Add mb-4 for bottom margin */}
-                <h2 className="font-bold  ">Eligibility Criteria</h2>
-                <li>{data.data.additionalDetails.eligibilityCriteria}</li>
-              </div>
-            </div>
-
-            <div className="flex flex-col md:flex-row justify-between items-center rounded p-0 ml-20 mt-4 mx-auto  ">
-              <div >
-
-
-                {/* ... other event content ... */}
-                {data.data.contact.map((guest, index) => (
-                  <Organizers
-
-
-                    picture1={guest.image.fileUrl}
-                    name1={guest.name}
-                    Job1={guest.post}
-                    p_no1={guest.contact}
-                    gmail1={guest.email}
-
+        <div className="rounded p-4 mb-4 bg-[#323843B0]">
+          <div className='flex flex-row space-x-4'>
+            <div>
+             <h2 className="font-bold break-normal">Team Formation Guidelines</h2>
+             </div>
+             {/* <div className=''>
+             <img src={edit} alt='edit' className='mt-2 cursor-pointer' onClick={HandleTeamGuidelineEdit} />
+             </div> */}
+          </div>
+          {EditTeamGuideline ? (
+                <div className='bg-slate-700 p-4 rounded w-72' style={{ color: 'white' }}>
+                  <input
+                   style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
+                    type="text"
+                    value={TeamGuidelines}
+                    onChange={(e) => setTeamGuidelines(e.target.value)}
+                    className="border border-gray-400 px-2 py-1 rounded"
                   />
+                  <button onClick={HandleSaveEditTeamGuideline} className="px-2 py-1 bg-blue-500 text-white rounded m-2">Save</button>
+                  {/* <button onClick={handleCancelClick} className="px-2 py-1 bg-red-500 text-white rounded">Cancel</button> */}
+                </div>
+              ) : (
+                <>
+                  <p>{ data.data.additionalDetails?.teamFormationGuidelines  || "No Data"}</p>
+                  <img src={edit} alt='edit' className='mt-2 cursor-pointer' onClick={HandleTeamGuidelineEdit} />
+                </>
+              )}
+        </div>
+        {/* data.data.additionalDetails.teamFormationGuidelines */}
+        <div className="rounded p-4 mb-4 bg-[#323843B0]">
+        
+          <img src={del} alt='edit' className='w-4 h-4 cursor-pointer' />
+          <h2 className="font-bold">Download Resources</h2>
+          {data.data.additionalDetails.resources && data.data.additionalDetails.resources.length > 0 ? (
+            <a href={data.data.additionalDetails.resources[0].fileUrl}>
+              {data.data.additionalDetails.resources[0].fileName || "No Data"}
+            </a>
+          ) : (
+            <p>No Data</p>
+          )}
+        </div>
+      </div>
 
-                ))}
+      <div className="grid md:grid-cols-2 gap-4 mt-4">
+        <div className="rounded p-4 mb-4 bg-[#323843B0]">
+        <div className='flex flex-row space-x-4'>
+            <div>
+              <h2 className="font-bold">Rewards</h2>
+          </div>
+          <div className=''>
+             <img src={edit} alt='edit' className='mt-2 cursor-pointer'  />
+          </div>
+          </div>
+          <p>{data.data.additionalDetails.rewards || "No Data"}</p>
+         
+        </div>
 
-              </div>
-            </div>
+        <div className="rounded p-4 mb-4 bg-[#323843B0]">
+        <div className='flex flex-row space-x-4'>
+          <div>
+          <h2 className="font-bold">Eligibility Criteria</h2>
+          </div>
+          <div>
+          <img src={edit} alt='edit' className='mt-2 cursor-pointer '  />
           </div>
         </div>
-      )}
+          <li>{data.data.additionalDetails.eligibilityCriteria || "No Data"}</li>
+        </div>
+      </div>
+
+      <div className="flex flex-col md:flex-row justify-between items-center rounded p-0 ml-20 mt-4 mx-auto">
+        
+        <div>
+          {/* Render event content */}
+          {data.data.contact && data.data.contact.map((guest, index) => (
+            <Organizers
+              key={index}
+              picture1={guest.image?.fileUrl || ""}
+              name1={guest.name}
+              Job1={guest.post}
+              p_no1={guest.contact}
+              gmail1={guest.email}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+)}
 
     </div>
     <div className='flex justify-center'>
@@ -470,121 +567,3 @@ export default EventPage;
 
 
 
-// {
-//   "event_id": "75505947-d98c-4d4a-852d-23707bdfb742",
-//   "name": "Crayons Fun",
-//   "startdt": "2024-04-03",
-//   "enddt": "2024-04-03",
-//   "description": "Sample event description",
-//   "organizerName": "Kraft",
-//   "thumbnail": {
-//       "fileName": "663a76d5-54d7-4614-8f0d-eee760871420_cmbio.jpeg",
-//       "fileUrl": "https://storage.googleapis.com/download/storage/v1/b/kapture-events/o/663a76d5-54d7-4614-8f0d-eee760871420_cmbio.jpeg?generation=1710513597819041&alt=media"
-//   },
-//   "additionalDetails": {
-//       "teamFormationGuidelines": "\"Ultrices suspendisse mattis faucibus vitae.\"",
-//       "eligibilityCriteria": "\"Lorem ipsum dolor sit amet consectetur.\"",
-//       "rewards": "\"Lorem ipsum dolor sit amet consectetur. Ultrices suspendisse mattis faucibus vitae.\"",
-//       "resources": [
-//           {
-//               "fileName": "a0db4b4d-cd21-4f93-b71b-09a272b3a093_22627.jpg",
-//               "fileUrl": "https://storage.googleapis.com/download/storage/v1/b/kapture-events/o/a0db4b4d-cd21-4f93-b71b-09a272b3a093_22627.jpg?generation=1710592973017019&alt=media"
-//           }
-//       ]
-//   },
-//   "sponsors": [
-//       {
-//           "sponsor": {
-//               "fileName": "7c78a40f-c0a9-4122-8785-c9448f7d9ac6_81660963.jpg",
-//               "fileUrl": "https://storage.googleapis.com/download/storage/v1/b/kapture-events/o/7c78a40f-c0a9-4122-8785-c9448f7d9ac6_81660963.jpg?generation=1710526750317704&alt=media"
-//           }
-//       },
-//       {
-//           "sponsor": {
-//               "fileName": "a2e52343-a99c-437f-9a2f-d8ce9f9a63c4_81660963.jpg",
-//               "fileUrl": "https://storage.googleapis.com/download/storage/v1/b/kapture-events/o/a2e52343-a99c-437f-9a2f-d8ce9f9a63c4_81660963.jpg?generation=1710527212571124&alt=media"
-//           }
-//       },
-//       {
-//           "sponsor": {
-//               "fileName": "bd0f20f8-6f64-41e4-bad4-7202867db8d1_81660963.jpg",
-//               "fileUrl": "https://storage.googleapis.com/download/storage/v1/b/kapture-events/o/bd0f20f8-6f64-41e4-bad4-7202867db8d1_81660963.jpg?generation=1710530743547321&alt=media"
-//           }
-//       }
-//   ],
-//   "contact": [
-//       {
-//           "name": "Soumya",
-//           "post": "Coordinator",
-//           "contact": 8947817471,
-//           "email": "soumya@gmail.com",
-//           "image": {
-//               "fileName": "a6e4aa28-e484-4cfb-a778-8d782d26a323_linkedin-profile-picture.jpg",
-//               "fileUrl": "https://storage.googleapis.com/download/storage/v1/b/kapture-events/o/a6e4aa28-e484-4cfb-a778-8d782d26a323_linkedin-profile-picture.jpg?generation=1710591742260720&alt=media"
-//           }
-//       }
-//   ],
-//   "specialGuest": [
-//       {
-//           "image": {
-//               "fileName": "ddeeb0a0-a293-4237-a4f0-db72de99a2ca_22627.jpg",
-//               "fileUrl": "https://storage.googleapis.com/download/storage/v1/b/kapture-events/o/ddeeb0a0-a293-4237-a4f0-db72de99a2ca_22627.jpg?generation=1710529182765973&alt=media"
-//           },
-//           "name": "Jack Ryan",
-//           "post": "IAS",
-//           "dt": "2024-02-08T00:00:00.000+00:00",
-//           "time": "2024-02-08T10:00:00.000+00:00",
-//           "venue": "Sub Event Venue 1"
-//       }
-//   ],
-//   "societyId": {
-//       "id": 3,
-//       "contact": 1234567890,
-//       "emailId": "kraft@kiit.ac.in",
-//       "societyName": "Kraft",
-//       "events": []
-//   },
-//   "subEvent": [
-//       {
-//           "name": "Sub Event 1",
-//           "desc": null,
-//           "dt": "2024-04-03T00:00:00.000+00:00",
-//           "time": "2024-04-03T10:00:00Z",
-//           "venue": "Sub Event Venue 1"
-//       },
-//       {
-//           "name": "Sub Event 2",
-//           "desc": null,
-//           "dt": "2024-04-03T00:00:00.000+00:00",
-//           "time": "2024-04-03T14:00:00Z",
-//           "venue": "Sub Event Venue 2"
-//       }
-//   ],
-//   "updts": null,
-//   "eventStatus": [
-//       {
-//           "dt": "2024-04-03T00:00:00.000+00:00",
-//           "status": "pending"
-//       }
-//   ],
-//   "socialMedia": {
-//       "instagram": "www.instagram.com",
-//       "facebook": "www.facebook.com",
-//       "other": null
-//   },
-//   "approvalRequest": {
-//       "eventId": "75505947-d98c-4d4a-852d-23707bdfb742",
-//       "status": "pending"
-//   },
-//   "registeredStudents": [
-//       {
-//           "id": 52
-//       },
-//       {
-//           "id": 102
-//       },
-//       {
-//           "id": 152
-//       }
-//   ]
-// }

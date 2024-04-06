@@ -37,6 +37,7 @@ const EventCard = ({eventId, description:initialdescription , date: initialdate,
     console.log(date);
   
     const formData = {
+      
       'desc': description,
       'date': time,
       'time': time,
@@ -268,6 +269,7 @@ const TimelineEntry = ({ events ,eventId }) => {
                   date={event.date}
                   time={event.time}
                   venue={event.venue}
+                  
                 />
                 <Pillar />
                 </Fragment>

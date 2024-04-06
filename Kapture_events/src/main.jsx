@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import Layout from './layout.jsx';
 
-
+import Event from './components/Event.jsx';
 import CreateEvent from "./page/event_page/CreateEvent.jsx";
 import Registration_page from "./page/registration_page/Registration_page.jsx";
 import Login_page from "./page/admin_page/Login_page.jsx";
@@ -42,11 +42,9 @@ const router = createBrowserRouter(
 
 // ReactDOM.createRoot(document.getElementById('root')).render(
 //     <React.StrictMode>
-//
 //         <GoogleOAuthProvider clientId={"454799539348-6pprtbja4g3k32l5qu1itlf1e04iugvq.apps.googleusercontent.com"}>
-//            <RouterProvider router={router} />
+//             <RouterProvider router={router} />
 //         </GoogleOAuthProvider>
-//
 //     </React.StrictMode>
 // );
 
@@ -54,8 +52,8 @@ const router = createBrowserRouter(
 
 ReactDOM.createRoot(document.getElementById('root')).render(
 
- <React.StrictMode>
-   < Society_Login/>
+ <React.StrictMode>  
+   < Event/>
  </React.StrictMode>,
 )
 
