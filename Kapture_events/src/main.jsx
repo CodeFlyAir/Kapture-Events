@@ -26,7 +26,13 @@ import OAuthCallback from "./components/OAuthCallback.jsx";
 import {GoogleOAuthProvider} from "@react-oauth/google";
 import Society_Login from "./page/societylogin_page/Society_Login.jsx";
 import RegisterSociety from "./components/RegisterSociety.jsx";
+
+import Login_Admin from "./components/Login_Admin.jsx";
+import Home_page from "./page/home_page/Home_page.jsx";
+
+
 import AdminApproval from "./page/admin_approval/Admin_Approval.jsx";
+
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -40,9 +46,11 @@ const router = createBrowserRouter(
       <Route path="org_home" element={<OrgHome />} />
       <Route path = "Approval" element={<AdminApproval />} />
       <Route path="*" element={<Error_page />} />
+        <Route path="admin/login" element={<Login_Admin/>}/>
     </Route>
   )
 );
+
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -57,10 +65,13 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 
 // ReactDOM.createRoot(document.getElementById('root')).render(
 
-//  <React.StrictMode>  
-//    < Event/>
-//  </React.StrictMode>,
-// )
+
+ <React.StrictMode>
+   <Home_page/>
+ </React.StrictMode>,
+)
+
+
 
 
 // ReactDOM.createRoot(document.getElementById('root')).render(

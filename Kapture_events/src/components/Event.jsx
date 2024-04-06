@@ -27,7 +27,7 @@ function CreateEventForm() {
     const [organiserName,setOrganiserName] =useState('');
     const [organizerContact, setOrganizerContact] = useState('');
 
-    const [subEvents, setSubEvents] = useState([{ flag:'',name: '', description: '' , date: null, time: '', venuePreference1: '' ,venuePreference2:'',venuePreference3:''}]);
+    const [subEvents, setSubEvents,setSubEventName,setSubEventDescription,setVenuePreference1, setVenuePreference2,setVenuePreference3] = useState([{ flag:'',name: '', description: '' , date: null, time: '', venuePreference1: '' ,venuePreference2:'',venuePreference3:''}]);
 
     const handleInputChange = (event) => {
         const {name, value} = event.target;
