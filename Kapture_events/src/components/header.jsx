@@ -7,6 +7,9 @@ import profileLogo from '../assets/profile.svg'
 
 
 function App() {
+   const Handleclick = () => {
+    window.location.href = '/events';
+  }
   
   return (
     <>
@@ -14,7 +17,7 @@ function App() {
          <div className='  w-full h-auto bg-gradient-to-b from-bg_pink from-10% to-slaty to-70% ... p-1 mb-0 flex flex-row flex-wrap justify-between '
          >
            <div className=" flex flex-row p-4 pb-0 pt-[2px] pl-41px">
-            <img className="bg-transparent h-20 md:h-24"src={EventLogo} alt="Logo"/>
+            <img className="bg-transparent h-20 md:h-24" onClick={Handleclick} src={EventLogo} alt="Logo"/>
 
            </div>
            <div className='  my-2  item-center flex flex-end justify-center pt-2 pr-5'>

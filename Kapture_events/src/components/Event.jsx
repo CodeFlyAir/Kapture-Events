@@ -1,4 +1,3 @@
-
 import React from 'react';
 import {useState} from "react";
 import ReactDOM from 'react-dom';
@@ -12,8 +11,10 @@ import FooterCreateEvent from "./FooterCreateEvent.jsx";
 import Gallerym from "./Gallerym.jsx";
 import subevent from "arg";
  import './event.css';
-
+import TimePicker from 'react-time-picker';
+import DatePicker  from "react-date-picker";
 import img from './Rectangle 3.png';
+import axios from 'axios';
 
 
 
@@ -90,7 +91,15 @@ function CreateEventForm() {
         const newFlag=subEvents.length+1;
         setSubEvents([...subEvents, { flag:newFlag,name: '', description: '' , date: '', time: '', venuePreference1: '',venuePreference2: '',venuePreference3: ''}]);
     };
-
+    const [prevPhotos, setPrevPhotos] = useState([]);
+    const handlePrevPhotosUpload = (e) => {
+        const files = e.target.files;
+        const updatedPrevPhotos = [...prevPhotos];
+        for (let i = 0; i < files.length; i++) {
+            updatedPrevPhotos.push(files[i]);
+        }
+        setPrevPhotos(updatedPrevPhotos);
+    };
     return (
 
     <form>
@@ -106,30 +115,30 @@ function CreateEventForm() {
                 left: '40px'
             }} className="m-auto">
 
-                <input type="text" id="eventName" placeholder={"Event Name"} name="eventName" value={eventName}
+                <input type="text" id="eventName" className='text-white text-lg' placeholder={"Event Name"} name="eventName" value={eventName}
                        onChange={handleInputChange} style={{
                     border: '3px solid #F7418F',
                     borderRadius: '5px',backgroundColor:'inherit',height:'83px',width:'559px',top:'806px',left:'40px'}}/>
                 </div>
                 <div style={{ padding: '10px'}}>
 
-                    <input type="text" id="organiserName" placeholder={"Organiser Name"} name="organiserName" value={organiserName}
+                    <input type="text" id="organiserName" className='text-white text-lg' placeholder={"Organiser Name"} name="organiserName" value={organiserName}
                            onChange={handleInputChange} style={{border: '3px solid #F7418F', borderRadius: '5px',backgroundColor:'inherit',height:'83px',width:'559px',top:'806px',left:'40px'}}/>
                 </div>
             </div>
             <div style={{marginTop: '20px',  padding: '10px',marginRight: '30px',marginLeft:'30px'}}>
 
-                <textarea id="eventDescription" placeholder={"Event Description (up to 250 words)"} name="eventDescription" value={eventDescription}
+                <textarea id="eventDescription" className='text-white text-lg' placeholder={"Event Description (up to 250 words)"} name="eventDescription" value={eventDescription}
                           onChange={handleInputChange} rows="10" cols="50" style={{border: '3px solid #F7418F', borderRadius: '5px',backgroundColor:'inherit',height:'160px',width:'1200px',top:'806px',left:'40px'}}/>
             </div>
             <div style={{display: 'flex', flexDirection: 'row'}}>
                 <div style={{marginRight: '30px', padding: '10px',marginLeft:'30px'}}>
 
-                    <input type="text" id="registrationFee" placeholder={"Registration Fees(Rs)"} name="registrationFee" value={registrationFee} onChange={handleInputChange} style={{border: '3px solid #F7418F', borderRadius: '3px',backgroundColor:'inherit',height:'70px',width:'559px',top:'1367px',left:'40px'}}/>
+                    <input type="Number" className='text-white text-lg' id="registrationFee" placeholder={"Registration Fees(Rs)"} name="registrationFee" value={registrationFee} onChange={handleInputChange} style={{border: '3px solid #F7418F', borderRadius: '3px',backgroundColor:'inherit',height:'70px',width:'559px',top:'1367px',left:'40px'}}/>
                 </div>
                 <div style={{ padding: '10px'}}>
 
-                    <input type="text" id="organizerContact" placeholder={"OrganizerContactNo:"} name="organizerContact" value={organizerContact}
+                    <input type="text" id="organizerContact" className='text-white text-lg' placeholder={"OrganizerContactNo:"} name="organizerContact" value={organizerContact}
                            onChange={handleInputChange} style={{border: '3px solid #F7418F', borderRadius: '5px',backgroundColor:'inherit',height:'70px',width:'559px',top:'1367px',left:'40px'}}/>
                 </div>
             </div>
@@ -143,6 +152,7 @@ function CreateEventForm() {
                     <p className={'placHeader'}> Subevent {subEvent.flag}</p>
 
                     <input
+                    
                         className={'subEvNamInp'}
                         type="text"
                         id={`subEventName-${index}`}
@@ -191,7 +201,7 @@ function CreateEventForm() {
                             id={`subEventTime-${index}`}
                             name={`subEventTime-${index}`}
                             value={subEvent.time}
-                            onChange={(event) => handleInputChange2(e.target.value, index)}
+                            onChange={(event) => handleInputChange2(event, index)}
                             // style={{
                             //     border: '3px solid #F7418F',
                             //     backgroundColor: 'inherit',
@@ -280,57 +290,152 @@ const createEventHeaderStyle = {
 //     cursor: 'pointer',
 // };
 
+
+
 function Event() {
-    return (
-        <>
+  const [selectedImage, setSelectedImage] = useState(img);
+  const [selectedFileName, setSelectedFileName] = useState('');
 
-            <App/>
-            <div className='aspect-ratio:4/3 ml-8 mr-8'>
-                <img style={{ height: '90vh', width: '100%', objectFit: 'cover',objectPosition:'center', marginTop :'0px' }}
-                     className='rounded-[45px] z-0'
-                    src={img}// Replace with your cover image URL
-                    alt="Cover"
+  const handleImageChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      setSelectedFileName(file.name); // Set the file name to the state
+      setSelectedImage(URL.createObjectURL(file)); // Create a URL for the file
+    }
+  };
 
-                />
-                <button /*style={{
-                    justifyContent:"end",
-                    left: "45rem",
-                    top: "-70px",
-                    color: "white",
-                    padding: "10px 20px", // Add padding to the button
-                    backgroundColor: "deeppink", // Set a background color
-                    border: "2px solid #e50d9e", // Add a border
-                    borderRadius: "5px", // Add border-radius for rounded corners
-                    cursor: "pointer", }}*/ className="p-4 rounded-2xl bg-pinky text-white flex-row-reverse justify-items-end mt-4 "  onClick={() => console.log('Change cover picture')}>Change Cover Photo</button>
+ 
 
-            </div>
-            <div className="event-container justify-between flex flex-row flex-wrap"> {/* Add a container class for styling (optional) */}
-
-                <div>
-                    <h1></h1>
-                </div>
-                <div>
-                    <h1  className="items-center text-3xl text-white mt-4 mb-6 font-bold">Create New Event</h1>
-                </div>
-                <div>
-                    <h1 className=" flex flex-row-reverse text-pinky mr-10 mt-4 text-2xl">Preview</h1>
-                </div>
-                <CreateEventForm/>
+  
 
 
-            </div>
+  const  HandleSubmit = async (event) => {
 
-            <div className=" flex flex-row justify-items-center">
-                <button
-                    className="p-4   bg-pinky text-white flex-row-reverse justify-items-end m-auto mt-4 rounded-2xl w-1/6"
-                    onClick={() => console.log('Change cover picture')}>Submit Request
-                </button>
+    // Prevent the default form submission behavior
+    event.preventDefault();
+    
+    // Assuming you have already defined Time, dt, and other variables like description, Venue, etc.
+  
+    // Create a dt object with the dt and time combined
+    // const dtTimeString = `${dt}T${Time}:00.000Z`;
+    // const eventdtTime = new Date(dtTimeString);
+  
+    // Convert the dt object to a timestamp string
+    // const formattedTime = eventdtTime.toISOString();
+  
+    // Construct the JSON data object
+    const jsonData = {
+    
+        name:"Jazzzz Night",
+        startDate: "2024-04-10",
+        endDate: "2024-06-03",
+        description : "Sample event description",
+        subEvent: [
+            {
+                subEventId: "1",
+                name: "Sub Event 1",
+                description: "Description for Sub Event 1",
+                date: "2024-04-10",
+                time: "2024-04-10T10:00:00.000Z",
+                venue: "Sub Event Venue 1"
+            },
+            {
+                subEventId: "2",
+                name: "Sub Event 2",
+                description: "Description for Sub Event 2",
+                date: "2024-04-10",
+                time: "2024-04-10T14:00:00.000Z",
+                venue: "Sub Event Venue 2"
+            }
+        ],
+        eventStatus: [
 
-            </div>
-            <Footer/>
+    ]
+        
+    };
+  
+  
+    // Create a FormData object and append JSON data
+    const formData2 = new FormData();
+    formData2.append('jsonData', new Blob([JSON.stringify(jsonData)], { type: 'application/json'}));
+  
+    // Fetch the image and append it to formData
+    const response = await fetch(selectedImage);
+    const fileData = await response.blob();
+    formData2.append('thumbnail', fileData);
+    
+  
+    // Set the headers for the request
+    const config = {
+      headers: {
+        // 'Content-Type': 'multipart/form-data'
+      }
+    };
+  
+    try {
+      // Make the POST request using axios
+      const response = await axios.post(`https://kapture-events.onrender.com/events/register?email-id=nss@gmail.com`, formData2, config)
 
-        </>
-    )
+      .then(response => {
+        console.log(response.data);
+        alert(' submitted successfully!');
+        window.location.href = '/org_home';
+    })
+      
+    
+      // Handle the response accordingly
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    }
+   
+  };
+
+
+  return (
+    <>
+      <div className='aspect-ratio:4/3 ml-8 mr-8'>
+        {/* Use the object URL as the image source */}
+        {selectedImage && (
+          <img
+            style={{ height: '90vh', width: '100%', objectFit: 'cover', objectPosition: 'center', marginTop: '0px' }}
+            className='rounded-[45px] z-0'
+            src={selectedImage}
+            alt="Cover"
+          />
+        )}
+        <div>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            style={{ display: 'none' }}
+            id="image-upload"
+          />
+          <label htmlFor="image-upload">
+            <button className='my-3 w-48 rounded-xl h-auto bg-pinky text-white' onClick={() => document.getElementById('image-upload').click()}>
+              Upload Image
+            </button>
+          </label>
+          {selectedFileName && <p className='text-pinky'>File: {selectedFileName}</p>}
+        </div>
+      </div>
+      <div className="event-container justify-between flex flex-row flex-wrap">
+        {/* Your other content */}
+        <h1 className="items-center text-3xl text-white mt-4 mb-6 font-bold">Create New Event</h1>
+        <h1 className="flex flex-row-reverse text-pinky mr-10 mt-4 text-2xl">Preview</h1>
+        <CreateEventForm />
+      </div>
+      <div className="flex flex-row justify-items-center">
+        <button
+          className="p-4 bg-pinky text-white flex-row-reverse justify-items-end m-auto mt-4 rounded-2xl w-1/6"
+          onClick={HandleSubmit}
+        >
+          Submit Request
+        </button>
+      </div>
+      <Footer />
+    </>
+  );
 }
 
-export default Event
+export default Event;

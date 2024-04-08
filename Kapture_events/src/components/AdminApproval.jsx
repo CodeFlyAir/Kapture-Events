@@ -10,14 +10,15 @@ import Filter_ from "./Filter_.jsx";
 import Pict from "./pict.jsx";
 import FooterCreateEvent from "./FooterCreateEvent.jsx";
 import Gallerym from "./Gallerym.jsx";
+import { useNavigate } from 'react-router-dom';
 
 const Approval = () => {
     const [events, setEvents] = useState([
-        { id: 1, title: 'Event 1', startDate: '2024-03-15', endDate: '2024-03-17' },
-        { id: 2, title: 'Event 2', startDate: '2024-03-18', endDate: '2024-03-20' },
-        { id: 3, title: 'Event 3', startDate: '2024-03-21', endDate: '2024-03-23' },
-        { id: 4, title: 'Event 4', startDate: '2024-03-25', endDate: '2024-03-27' },
-        { id: 5, title: 'Event 5', startDate: '2024-03-28', endDate: '2024-03-30' },
+        { id: 1, title: 'Kreative', startDate: '2024-04-03', endDate: '2024-04-03' },
+        { id: 2, title: 'Encode 2.0', startDate: '2024-04-03', endDate: '2024-06-03' },
+        { id: 3, title: 'Udhash', startDate: '2024-04-04', endDate: '2024-04-04' },
+        { id: 4, title: 'Matrix', startDate: '2024-04-03', endDate: '2024-04-03' },
+        { id: 5, title: 'Crayons', startDate: '2024-04-03', endDate: '2024-04-03' },
     ]);
     const [isLoading, setIsLoading] = useState(false); // Initially not loading (replace with API call)
     const [errorMessage, setErrorMessage] = useState(''); // State for error messages
@@ -38,6 +39,14 @@ const Approval = () => {
             setIsLoading(false);
         }
     };
+    const eventId = '582093f5-ab5e-443a-81a3-15fa690136df';
+    const date = '2024-04-03';
+    const title = 'Kreative';
+    const navigate = useNavigate();
+    const HandleClick = () => {
+        navigate(`/events/582093f5-ab5e-443a-81a3-15fa690136df`,  { state: { eventId, date, title } });
+    }
+   
 
     return (
 
@@ -62,8 +71,8 @@ const Approval = () => {
                         </thead>
                         <tbody>
                         {events.map((event) => (
-                            <tr key={event.id} className="hover:bg-amber-600">
-                                <td className="px-6 py-4 text-white">{event.title}</td>
+                            <tr key={event.id} className="hover:bg-amber-600" >
+                                <td className="px-6 py-4 text-white" onClick={HandleClick()} >{event.title}</td>
                                 <td className="px-6 py-4 text-white">{event.startDate}</td>
                                 <td className="px-6 py-4 text-white">{event.endDate}</td>
                                 <td className="px-6 py-4 flex space-x-2">

@@ -4,7 +4,7 @@ import './index.css';
 import Layout from './layout.jsx';
 import Login_Admin from './components/Login_Admin.jsx';
 
-import Event from './components/Event.jsx';
+
 import CreateEvent from "./page/event_page/CreateEvent.jsx";
 import Registration_page from "./page/registration_page/Registration_page.jsx";
 import Login_page from "./page/admin_page/Login_page.jsx";
@@ -14,6 +14,7 @@ import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } 
 import Error_page from './page/error_page/Error_page.jsx'
 import Org_page from './page/org_dash-3/Org_dash-3.jsx'
 import OrgHome from './page/org_homepage/OrgHome.jsx';
+import Event from './components/Event.jsx'
 
 import TimelineEntry from './components/Organiser/timeline.jsx'
 import DropDown from './components/Organiser/dropdown.jsx'
@@ -27,7 +28,7 @@ import {GoogleOAuthProvider} from "@react-oauth/google";
 import Society_Login from "./page/societylogin_page/Society_Login.jsx";
 import RegisterSociety from "./components/RegisterSociety.jsx";
 
-import Login_Admin from "./components/Login_Admin.jsx";
+
 import Home_page from "./page/home_page/Home_page.jsx";
 
 
@@ -45,6 +46,7 @@ const router = createBrowserRouter(
       <Route path="admin-login" element={<Login_Admin />} />
       <Route path="org_home" element={<OrgHome />} />
       <Route path = "Approval" element={<AdminApproval />} />
+      <Route path="createEvent" element={<Event />} />
       <Route path="*" element={<Error_page />} />
         <Route path="admin/login" element={<Login_Admin/>}/>
     </Route>
@@ -65,13 +67,10 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 
 // ReactDOM.createRoot(document.getElementById('root')).render(
 
-
- <React.StrictMode>
-   <Home_page/>
- </React.StrictMode>,
-)
-
-
+//  <React.StrictMode>  
+//    <Home />
+//  </React.StrictMode>,
+// )
 
 
 // ReactDOM.createRoot(document.getElementById('root')).render(

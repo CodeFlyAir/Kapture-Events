@@ -21,7 +21,7 @@ const Login_Admin = (eventId,date,title) => {
     const login1 = useGoogleLogin({
         onSuccess: (response) => {
             localStorage.setItem("accessToken", response.access_token);
-            navigate(`/events/${eventId}`,  { state: { eventId, date, title } });
+            window.location.href='/Approval'
         },
         onError: (err) => {
             console.error(err)
@@ -33,7 +33,12 @@ const Login_Admin = (eventId,date,title) => {
 
 
 
+    const handleLogin = async () => {
+        // window.location.href = `https://accounts.google.com/o/oauth2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=email%20profile`;
+        // const [email] = useState('');
 
+        window.location.href='/Approval'
+    }
     return (
         <>
 
