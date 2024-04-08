@@ -27,9 +27,9 @@ function Reg() {
     return (
         <>
         
-            <div className="image-slider-container" >
+            {/* <div className="image-slider-container" >
                 <ImageSlider slides={slides}  />
-            </div>
+            </div> */}
             <RegistrationForm style={{ marginTop: '2rem' }} />
             <Footer />
         </>

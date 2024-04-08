@@ -17,46 +17,45 @@ import Organizers from './organizer_card.jsx';
 
 import { useParams } from 'react-router-dom';
 
+import { useLocation } from 'react-router-dom';
+
 import TimelineEntry from './timeline.jsx';
 import React, { useState } from 'react';
 import axios from 'axios';
-
+import Add from '../../assets/addMore.svg'
+import del from '../../assets/delete.svg'
 import Poster from './poster.jsx';
 
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 const EventPage = ( data ) => {
  
-  
+  const { state } = useLocation();
+  const { eventId, date, title } = state || {};
+ 
     const navigate = useNavigate();
-    const [eventDetails, setEventDetails] = React.useState({
-      startDate: '',   
-      name: '',
-      description: '',
-      event_id: ''
-    });
-    if(data){
-      console.log(data);
-    }
+
+    var description = data.data.description;
+    var picture= data.data.thumbnail?.fileUrl
+
+    
+    
+   const HandleSpecialGuest = () => {
+     setAddEvent(!AddEvent)
+   }
    
    
   
   const handleRegisterClick = () => {
-    navigate(`/registration/${data.data.event_id}`)
+   
+    navigate(`/registration/${eventId}`,  { state: { eventId,date, title , description ,picture} });
   };
 
   const [option, setOption] = useState('Timeline');
   const [Date , setDate] = useState('1996-03-15');
   const [currentDate , setCurrentDate] = useState('1996-03-15');
 
-  const { eventId } = useParams();
-   
-  useEffect(() => {
-    if (data) {
-      setEventDetails(data);
-    }
-  }, [data]);
-  console.log(data);
+  
 
   return (
     <>
@@ -151,39 +150,38 @@ const EventPage = ( data ) => {
   )}
 
 
-      {option === 'Special-Guest' && (
-        <div  className="my-4">
-           
-           <div>
-      {/* ... other event content ... */}
+{option === 'Special-Guest' && (
+  <div className="my-4">
+    <div>
+    
       {data.data.specialGuest.map((guest, index) => (
         <SpecialG
-          
-        picture={guest.image.fileUrl}
-        name={guest.name}
-        Job={guest.post}
-        Date={guest.date}
-        time={guest.time}
-        Address={guest.venue}
-          
-          
-          
+          key={index}
+          picture={guest.image.fileUrl}
+          name={guest.name}
+          Job={guest.post}
+          Date={guest.date}
+          time={guest.time}
+          Address={guest.venue}
         />
-       
       ))}
     </div>
-          
-         
+  </div>
+)}
 
-        </div>
-      )}
+
+
 
       {option === 'Sponsor' && (
         <div  className="my-4">
           {/* Sponsor content */}
+         
           <div className="flex space-x-4">
             {data.data.sponsors.map((item, index) => (
+              <>
+            
               <img key={index} src={item.sponsor.fileUrl} alt="" className="w-20 h-20" />
+              </>
             ))}
           </div>
         </div>
@@ -201,6 +199,7 @@ const EventPage = ( data ) => {
         </div>
         
         <div className="rounded p-4 mb-4 bg-[#323843B0]"> {/* Add mb-4 for bottom margin */}
+       
           <h2 className="font-bold">Download Resources</h2>
           <a href={data.data.additionalDetails.resources[0].fileUrl}>{data.data.additionalDetails.resources[0].fileName}</a>
         </div>
@@ -233,15 +232,10 @@ const EventPage = ( data ) => {
         p_no1={guest.contact}
         gmail1={guest.email}
 
-        picture2={SpecialG}
-        name2={guest.name}
-        Job2={guest.jobProfile}
-        p_no2={guest.contact}
-        gmail2={guest.email}
         />
        
       ))}
-   
+            
         </div>
       </div>
     </div> 

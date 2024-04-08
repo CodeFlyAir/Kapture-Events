@@ -48,7 +48,7 @@ function Org_home1() {
     return (
         <>
         
-        <App/>
+        
         
         <ImageSlider slides={slides}/>
         <Filternew_/>

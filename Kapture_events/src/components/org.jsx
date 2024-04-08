@@ -22,7 +22,7 @@ const slides = [
 function Org() {
     return (
         <>
-            <App />
+           
             <div className="image-slider-container">
                 <ImageSlider slides={slides} />
             </div>

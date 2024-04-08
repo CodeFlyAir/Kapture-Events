@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+
 import {useState} from "react";
 import ReactDOM from 'react-dom';
 import App from './header.jsx';
@@ -11,13 +12,36 @@ import FooterCreateEvent from "./FooterCreateEvent.jsx";
 import Gallerym from "./Gallerym.jsx";
 import subevent from "arg";
 import img from "./Rectangle 3.png";
+import {useNavigate} from "react-router-dom";
+import {useGoogleLogin} from "@react-oauth/google";
 
 
-const Login_Admin = () => {
+const Login_Admin = (eventId,date,title) => {
+    const navigate = useNavigate();
+    const login1 = useGoogleLogin({
+        onSuccess: (response) => {
+            localStorage.setItem("accessToken", response.access_token);
+            window.location.href='/Approval'
+        },
+        onError: (err) => {
+            console.error(err)
+            alert("login failed");
+        },
+        scope: "https://www.googleapis.com/auth/userinfo.email",
+        // redirect_uri: "/
+    })
 
+
+
+    const handleLogin = async () => {
+        // window.location.href = `https://accounts.google.com/o/oauth2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=email%20profile`;
+        // const [email] = useState('');
+
+        window.location.href='/Approval'
+    }
     return (
         <>
-            <App/>
+
             <div className="min-h-screen bg-slaty flex flex-col justify-center py-15 sm:px-6 lg:px-8">
                 <div className="sm:mx-auto sm:w-full sm:max-w-md">
                     <div className="text-center">
@@ -44,6 +68,7 @@ const Login_Admin = () => {
                             <div className="mt-6">
                                 <button
                                     type="submit"
+                                    onClick={login1}
                                     className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                                 >
                                     Log in
@@ -54,6 +79,7 @@ const Login_Admin = () => {
                 </div>
             </div>
             <Footer/>
+
         </>
     );
 };

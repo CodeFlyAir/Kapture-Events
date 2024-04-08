@@ -17,6 +17,11 @@ const EventFilter = () => {
     setSelectedSubFilter(subFilter);
   };
 
+  const handleCreateEventClick = () => {
+     setSelectedFilter('Create New Event');
+     window.location.href = '/createEvent';
+  };
+
   return (
     <div>
       <div className='flex justify-around mt-10 mb-3 '>
@@ -51,7 +56,7 @@ const EventFilter = () => {
             className={`mx-10 font-poppins w-[187px] h-[33px] font-semibold text-xl m-auto ${
               selectedFilter === 'Create New Event' ? 'text-pinky' : 'text-sm_pink'
             }`}
-            onClick={() => handleFilterClick('Create New Event')}
+            onClick={() => handleCreateEventClick()}
           >
             Create New Event
           </button>
